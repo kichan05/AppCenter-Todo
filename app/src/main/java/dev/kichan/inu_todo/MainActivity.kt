@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.google.gson.Gson
 import com.google.gson.internal.GsonBuildConfig
+import dev.kichan.inu_todo.model.data.member.SignInReq
 import dev.kichan.inu_todo.model.data.member.SignUpReq
 import dev.kichan.inu_todo.model.service.MemberService
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
@@ -57,6 +58,26 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    val signIn : (String, String) -> Unit = {id, pass ->
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = service.signIn(
+                body = SignInReq(
+                    userId = id,
+                    userPw = pass
+                )
+            )
+
+            if(result.isSuccessful) {
+                Log.d("SignIn", "성공")
+            }
+            else {
+                Log.d("SignIn", "실패")
+            }
+
+            Log.d("SignIn", result.body().toString())
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -73,8 +94,8 @@ class MainActivity : ComponentActivity() {
                         TextField(value = id.value, onValueChange = { id.value = it })
                         TextField(value = pass.value, onValueChange = { pass.value = it })
 
-                        Button(onClick = { signUp(id.value, pass.value) }) {
-                            Text(text = "회원가입")
+                        Button(onClick = { signIn(id.value, pass.value) }) {
+                            Text(text = "로그인")
                         }
                     }
                 }
