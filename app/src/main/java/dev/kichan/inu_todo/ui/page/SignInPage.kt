@@ -1,10 +1,16 @@
 package dev.kichan.inu_todo.ui.page
 
 import android.util.Log
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.member.SignInReq
 import dev.kichan.inu_todo.model.service.MemberService
@@ -14,7 +20,7 @@ import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
-fun SignInPage() {
+fun SignInPage(navController: NavController = rememberNavController()) {
     val id = remember { mutableStateOf("") }
     val pass = remember { mutableStateOf("") }
 
@@ -36,6 +42,15 @@ fun SignInPage() {
             }
 
             Log.d("SignIn", result.body().toString())
+        }
+    }
+
+    Column {
+        TextField(value = id.value, onValueChange = { id.value = it })
+        TextField(value = pass.value, onValueChange = { pass.value = it })
+
+        Button(onClick = { signIn(id.value, pass.value) }) {
+            Text(text = "로그인")
         }
     }
 }

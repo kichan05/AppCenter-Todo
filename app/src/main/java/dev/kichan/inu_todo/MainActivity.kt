@@ -9,6 +9,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import dev.kichan.inu_todo.ui.page.MainPage
+import dev.kichan.inu_todo.ui.page.Page
+import dev.kichan.inu_todo.ui.page.SignInPage
+import dev.kichan.inu_todo.ui.page.SignUpPage
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,6 +37,19 @@ fun MyApp() {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
+            val navController = rememberNavController()
+
+            NavHost(navController = navController, startDestination = Page.MAIN.name) {
+                composable(route = Page.MAIN.name) {
+                    MainPage(navController)
+                }
+                composable(route = Page.SIGN_IN.name) {
+                    SignInPage(navController)
+                }
+                composable(route = Page.SIGN_UP.name) {
+                    SignUpPage(navController)
+                }
+            }
 
         }
     }

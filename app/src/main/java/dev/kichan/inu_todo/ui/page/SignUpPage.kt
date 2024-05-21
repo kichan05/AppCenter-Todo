@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.member.SignUpReq
 import dev.kichan.inu_todo.model.service.MemberService
@@ -18,7 +20,7 @@ import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpPage() {
+fun SignUpPage(navController: NavController = rememberNavController()) {
     val id = remember { mutableStateOf("") }
     val pass = remember { mutableStateOf("") }
 
