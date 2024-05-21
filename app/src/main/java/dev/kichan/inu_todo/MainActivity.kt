@@ -14,8 +14,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.google.gson.Gson
-import com.google.gson.internal.GsonBuildConfig
+import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.member.SignInReq
 import dev.kichan.inu_todo.model.data.member.SignUpReq
 import dev.kichan.inu_todo.model.service.MemberService
@@ -23,22 +22,12 @@ import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.Protocol
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 
 class MainActivity : ComponentActivity() {
-    var retrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("http://na2ru2.me:5151")
-        .build()
-
-    var service: MemberService = retrofit.create(MemberService::class.java)
-
     val signUp : (String, String) -> Unit = {id, pass ->
         CoroutineScope(Dispatchers.IO).launch {
+            val service = RetrofitBuilder.getService(MemberService::class.java)
+
             val result = service.signUp(
                 body = SignUpReq(
                     userId = id,
