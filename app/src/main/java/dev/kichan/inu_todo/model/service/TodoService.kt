@@ -15,7 +15,7 @@ interface TodoService {
         @Path("member_id")
         memberId: Int,
         @Body body : TodoCreateReq
-    ) : Response<TodoCreateRes>
+    ) : Response<Todo>
 
     @GET("/todo/{member_id}")
     suspend fun getTodo(
