@@ -22,4 +22,7 @@ interface TodoService {
         @Path("member_id")
         memberId: String,
     ) : List<Todo>
+
+    //Todo: Todo 수정
+    //Todo: Todo 삭제
 }
