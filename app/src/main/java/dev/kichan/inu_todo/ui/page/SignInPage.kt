@@ -52,7 +52,7 @@ fun SignInPage(navController: NavController = rememberNavController()) {
 
         CoroutineScope(Dispatchers.IO).launch {
             val result = service.todoCreate(
-                memberId = id.value,
+                memberId = 2,
                 body = TodoCreateReq(
                     category = "Test",
                     content = pass.value,

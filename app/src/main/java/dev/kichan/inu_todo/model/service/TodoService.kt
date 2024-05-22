@@ -13,7 +13,7 @@ interface TodoService {
     @POST("/todo/{member_id}")
     suspend fun todoCreate(
         @Path("member_id")
-        memberId: String,
+        memberId: Int,
         @Body body : TodoCreateReq
     ) : Response<TodoCreateRes>
 
