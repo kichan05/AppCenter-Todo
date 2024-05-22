@@ -13,7 +13,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.member.SignInReq
+import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.service.MemberService
+import dev.kichan.inu_todo.model.service.TodoService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,12 +47,36 @@ fun SignInPage(navController: NavController = rememberNavController()) {
         }
     }
 
+    val todoCreate : (String) -> Unit = {
+        val service = RetrofitBuilder.getService(TodoService::class.java)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val result = service.todoCreate(
+                memberId = id.value,
+                body = TodoCreateReq(
+                    category = "Test",
+                    content = pass.value,
+                    setDate = "2024-05-22",
+                    writeDate = "2024-05-22"
+                ), )
+
+            if(result.isSuccessful)
+                Log.d("Todo", "성공")
+            else
+                Log.d("Todo", "실패 ${result.errorBody()}")
+        }
+    }
+    
     Column {
         TextField(value = id.value, onValueChange = { id.value = it })
         TextField(value = pass.value, onValueChange = { pass.value = it })
 
         Button(onClick = { signIn(id.value, pass.value) }) {
             Text(text = "로그인")
+        }
+
+        Button(onClick = { todoCreate(pass.value) }) {
+            Text(text = "투두 생성")
         }
     }
 }

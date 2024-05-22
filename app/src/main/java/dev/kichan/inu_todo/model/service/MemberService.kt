@@ -9,9 +9,9 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface MemberService {
-    @POST("/signUp")
+    @POST("/member/sign-up")
     suspend fun signUp(@Body body: SignUpReq) : Response<SignUpRes>
 
-    @POST("/signIn")
+    @POST("/member/sign-in")
     suspend fun signIn(@Body body: SignInReq) : Response<SignInRes>
 }
