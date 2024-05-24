@@ -82,30 +82,5 @@ fun HomePage(navController: NavController = rememberNavController()) {
             TextField(value = input.value, onValueChange = { input.value = it })
             InuButton(onClick = { todoCreate(input.value) }, text = "투두 생성")
         }
-
-        InuButton(onClick = {
-            val service = RetrofitBuilder.getService(CategoryService::class.java)
-            CoroutineScope(Dispatchers.IO).launch {
-                val res = service.createCategory(
-                    memberId = MainActivity.user.memberId,
-
-                    body = CreateCategoryReq(
-                        content = "학교생활",
-                        color = "#ff0000"
-                    )
-                )
-
-                if (res.isSuccessful) {
-                    Log.d("CategoryTest", "생성 성공")
-                }
-
-                val res2 = service.getUserCategory(memberId = MainActivity.user.memberId)
-                if(res2.isSuccessful) {
-                    Log.d("CategoryTest", "조회 성공")
-                    Log.d("CategoryTest", res2.body()!!.toString()  )
-                }
-            }
-        }, text = "실험하기")
-
     }
 }

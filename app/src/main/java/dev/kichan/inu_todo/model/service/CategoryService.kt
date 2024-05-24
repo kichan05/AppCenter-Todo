@@ -1,9 +1,11 @@
 package dev.kichan.inu_todo.model.service
 
+import dev.kichan.inu_todo.model.data.ResponseMessage
 import dev.kichan.inu_todo.model.data.category.Category
 import dev.kichan.inu_todo.model.data.category.CreateCategoryReq
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -23,4 +25,18 @@ interface CategoryService {
         @Body
         body : CreateCategoryReq
     ) : Response<Category>
+
+    @PUT("/category/{categoryId}")
+    suspend fun editCategory(
+        @Path("categoryId")
+        categoryId : Int,
+        @Body
+        body : CreateCategoryReq
+    ) : Response<Category>
+
+    @DELETE("/category/{categoryId}")
+    suspend fun edideleteCategory(
+        @Path("categoryId")
+        categoryId : Int,
+    ) : Response<ResponseMessage>
 }
