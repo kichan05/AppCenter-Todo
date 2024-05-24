@@ -32,13 +32,21 @@ fun Input(
     value: String,
     onChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    textStyle: TextStyle = TextStyle.Default,
     placeholder: String? = null,
-    icon: ImageVector? = null
+    icon: ImageVector? = null,
+    singleLine: Boolean = false,
+    maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+    minLines: Int = 1,
 ) {
     BasicTextField(
         value = value,
         onValueChange = onChange,
-        modifier
+        modifier = modifier,
+        textStyle = textStyle,
+        singleLine = singleLine,
+        maxLines = maxLines,
+        minLines = minLines,
     ) { innerTextField ->
         Row(
             Modifier
@@ -55,7 +63,7 @@ fun Input(
             if (value.isEmpty() && placeholder != null) {
                 Text(
                     text = placeholder,
-                    style = TextStyle(
+                    style = textStyle.copy(
                         color = Gray_600
                     )
                 )
