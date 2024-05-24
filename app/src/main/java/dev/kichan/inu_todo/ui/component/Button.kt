@@ -52,8 +52,8 @@ fun InuButton(
             style = TextStyle(
                 color = Color.White,
                 fontFamily = suit,
+                fontWeight = FontWeight.Medium,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
             )
         )
     }
