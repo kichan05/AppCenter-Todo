@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.kichan.inu_todo.ui.theme.Blue_400
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
+import dev.kichan.inu_todo.ui.theme.suit
 
 @Composable
 fun InuButton(
@@ -50,6 +51,7 @@ fun InuButton(
             text = text,
             style = TextStyle(
                 color = Color.White,
+                fontFamily = suit,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
             )
