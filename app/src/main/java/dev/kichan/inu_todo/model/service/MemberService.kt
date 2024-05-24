@@ -1,13 +1,16 @@
 package dev.kichan.inu_todo.model.service
 
+import dev.kichan.inu_todo.model.data.PasswordEditReq
+import dev.kichan.inu_todo.model.data.ResponseMessage
 import dev.kichan.inu_todo.model.data.member.SignInReq
-import dev.kichan.inu_todo.model.data.member.SignInRes
 import dev.kichan.inu_todo.model.data.member.SignUpReq
-import dev.kichan.inu_todo.model.data.member.SignUpRes
 import dev.kichan.inu_todo.model.data.member.User
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface MemberService {
     @POST("/member/sign-up")
@@ -15,4 +18,16 @@ interface MemberService {
 
     @POST("/member/sign-in")
     suspend fun signIn(@Body body: SignInReq) : Response<User>
+
+    @DELETE("/member/{memberId}")
+    suspend fun delete(
+        @Path("memberId")
+        memberId : Int
+    ) : Response<ResponseMessage>
+
+    @PUT("/member/{memberId}")
+    suspend fun editPassword(
+        @Body
+        body : PasswordEditReq
+    ) : Response<User>
 }
