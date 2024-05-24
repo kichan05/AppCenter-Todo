@@ -20,6 +20,7 @@ import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.component.InuButton
+import dev.kichan.inu_todo.ui.component.TodoItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -68,7 +69,7 @@ fun HomePage(navController: NavController = rememberNavController()) {
 
         LazyColumn {
             items(todoList.value) {
-                Text(text = it.toString())
+                TodoItem(todo = it)
             }
         }
 

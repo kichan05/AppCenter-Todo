@@ -38,7 +38,7 @@ fun InuButton(
         modifier
             .clickable { onClick() }
             .background(color = backgroundColor, shape = shape)
-            .padding(horizontal = 64.dp, vertical = 12.dp)
+            .padding(horizontal = 12.dp, vertical = 12.dp)
             .apply {
                if(border != null)
                    this.border(border)
