@@ -1,12 +1,17 @@
 package dev.kichan.inu_todo.model.service
 
+import dev.kichan.inu_todo.model.data.ResponseMessage
+import dev.kichan.inu_todo.model.data.category.Category
+import dev.kichan.inu_todo.model.data.category.CreateCategoryReq
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.data.todo.TodoCreateRes
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface TodoService {
@@ -23,6 +28,17 @@ interface TodoService {
         memberId: Int,
     ) : Response<List<Todo>>
 
-    //Todo: Todo 수정
-    //Todo: Todo 삭제
+    @PUT("/todo/{todoId}")
+    suspend fun editTodo(
+        @Path("todoId")
+        todoId : Int,
+        @Body
+        body : Todo
+    ) : Response<Todo>
+
+    @DELETE("/todo/{todoId}")
+    suspend fun deleteTodo(
+        @Path("todoId")
+        todoId : Int,
+    ) : Response<ResponseMessage>
 }
