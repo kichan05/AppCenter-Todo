@@ -20,8 +20,8 @@ interface TodoService {
     @GET("/todo/{member_id}")
     suspend fun getTodo(
         @Path("member_id")
-        memberId: String,
-    ) : List<Todo>
+        memberId: Int,
+    ) : Response<List<Todo>>
 
     //Todo: Todo 수정
     //Todo: Todo 삭제

@@ -50,38 +50,12 @@ fun SignInPage(navController: NavController = rememberNavController()) {
         }
     }
 
-    val todoCreate : (String) -> Unit = {
-        val service = RetrofitBuilder.getService(TodoService::class.java)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val result = service.todoCreate(
-                memberId = 2,
-                body = TodoCreateReq(
-                    category = "Test",
-                    content = pass.value,
-                    setDate = "2024-05-22",
-                    writeDate = "2024-05-22"
-                ), )
-
-            if(result.isSuccessful) {
-                Log.d("Todo", "성공")
-            }
-            else {
-                Log.d("Todo", "실패 ${result.errorBody()}")
-            }
-        }
-    }
-    
     Column {
         TextField(value = id.value, onValueChange = { id.value = it })
         TextField(value = pass.value, onValueChange = { pass.value = it })
 
         Button(onClick = { signIn(id.value, pass.value) }) {
             Text(text = "로그인")
-        }
-
-        Button(onClick = { todoCreate(pass.value) }) {
-            Text(text = "투두 생성")
         }
     }
 }
