@@ -16,11 +16,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.MainActivity
 import dev.kichan.inu_todo.model.RetrofitBuilder
-import dev.kichan.inu_todo.model.data.category.Category
-import dev.kichan.inu_todo.model.data.category.CreateCategoryReq
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
-import dev.kichan.inu_todo.model.service.CategoryService
 import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.component.InuButton
 import dev.kichan.inu_todo.ui.component.TodoItem

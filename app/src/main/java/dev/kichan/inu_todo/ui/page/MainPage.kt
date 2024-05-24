@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.MainActivity
@@ -22,7 +24,7 @@ import kotlinx.coroutines.launch
 @Preview(showBackground = true)
 @Composable
 fun MainPage(navController: NavController = rememberNavController()) {
-    val signIn : (String, String) -> Unit = {id, pass ->
+    val signIn: (String, String) -> Unit = { id, pass ->
         CoroutineScope(Dispatchers.IO).launch {
             val service = RetrofitBuilder.getService(MemberService::class.java)
             val result = service.signIn(
@@ -32,11 +34,10 @@ fun MainPage(navController: NavController = rememberNavController()) {
                 )
             )
 
-            if(result.isSuccessful) {
+            if (result.isSuccessful) {
                 MainActivity.user = result.body()!!
                 Log.d("SignIn", "성공")
-            }
-            else {
+            } else {
                 Log.d("SignIn", "실패")
             }
 
@@ -51,19 +52,25 @@ fun MainPage(navController: NavController = rememberNavController()) {
     ) {
         InuButton(
             onClick = { navController.navigate(Page.SIGN_IN.name) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp, horizontal = 17.dp),
             text = "로그인",
         )
 
         InuButton(
             onClick = { navController.navigate(Page.SIGN_UP.name) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp, horizontal = 17.dp),
             text = "회원가입",
         )
 
         InuButton(
             onClick = { navController.navigate(Page.Home.name) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp, horizontal = 17.dp),
             text = "홈",
         )
     }
