@@ -11,8 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import dev.kichan.inu_todo.MainActivity
 import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.member.SignInReq
+import dev.kichan.inu_todo.model.data.member.User
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.service.MemberService
 import dev.kichan.inu_todo.model.service.TodoService
@@ -37,6 +39,7 @@ fun SignInPage(navController: NavController = rememberNavController()) {
             )
 
             if(result.isSuccessful) {
+                MainActivity.user = result.body()!!
                 Log.d("SignIn", "성공")
             }
             else {
@@ -60,10 +63,12 @@ fun SignInPage(navController: NavController = rememberNavController()) {
                     writeDate = "2024-05-22"
                 ), )
 
-            if(result.isSuccessful)
+            if(result.isSuccessful) {
                 Log.d("Todo", "성공")
-            else
+            }
+            else {
                 Log.d("Todo", "실패 ${result.errorBody()}")
+            }
         }
     }
     

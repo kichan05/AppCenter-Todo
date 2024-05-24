@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import dev.kichan.inu_todo.MainActivity
 import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.member.SignUpReq
 import dev.kichan.inu_todo.model.service.MemberService
@@ -37,6 +38,7 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
             )
 
             if(result.isSuccessful) {
+                MainActivity.user = result.body()!!
                 Log.d("SignUp", "성공")
             }
             else {
