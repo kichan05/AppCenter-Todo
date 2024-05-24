@@ -5,11 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -21,6 +19,7 @@ import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.service.TodoService
+import dev.kichan.inu_todo.ui.component.InuButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -73,15 +72,11 @@ fun HomePage(navController: NavController = rememberNavController()) {
             }
         }
 
-        Button(onClick = { getTodo() }) {
-            Text(text = "투두 가져오기")
-        }
+        InuButton(onClick = { getTodo() }, text = "투두 가져오기")
 
         Row {
             TextField(value = input.value, onValueChange = {input.value = it})
-            Button(onClick = { todoCreate(input.value) }) {
-                Text(text = "투두 생성")
-            }
+            InuButton(onClick = { todoCreate(input.value) }, text = "투두 생성")
         }
 
     }
