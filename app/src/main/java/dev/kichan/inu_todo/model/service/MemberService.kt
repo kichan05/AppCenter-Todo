@@ -1,6 +1,6 @@
 package dev.kichan.inu_todo.model.service
 
-import dev.kichan.inu_todo.model.data.PasswordEditReq
+import dev.kichan.inu_todo.model.data.member.PasswordEditReq
 import dev.kichan.inu_todo.model.data.ResponseMessage
 import dev.kichan.inu_todo.model.data.member.SignInReq
 import dev.kichan.inu_todo.model.data.member.SignUpReq

@@ -16,8 +16,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.MainActivity
 import dev.kichan.inu_todo.model.RetrofitBuilder
+import dev.kichan.inu_todo.model.data.category.Category
+import dev.kichan.inu_todo.model.data.category.CreateCategoryReq
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
+import dev.kichan.inu_todo.model.service.CategoryService
 import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.component.InuButton
 import dev.kichan.inu_todo.ui.component.TodoItem
@@ -33,16 +36,16 @@ fun HomePage(navController: NavController = rememberNavController()) {
 
     val getTodo = {
         val service = RetrofitBuilder.getService(TodoService::class.java)
-        
+
         CoroutineScope(Dispatchers.IO).launch {
             val res = service.getTodo(MainActivity.user.memberId)
-            if(res.isSuccessful) {
+            if (res.isSuccessful) {
                 todoList.value = res.body()!!
             }
         }
     }
 
-    val todoCreate : (String) -> Unit = {
+    val todoCreate: (String) -> Unit = {
         val service = RetrofitBuilder.getService(TodoService::class.java)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -53,12 +56,12 @@ fun HomePage(navController: NavController = rememberNavController()) {
                     content = it,
                     setDate = "2024-05-22",
                     writeDate = "2024-05-22"
-                ), )
+                ),
+            )
 
-            if(result.isSuccessful) {
+            if (result.isSuccessful) {
                 Log.d("Todo", "성공")
-            }
-            else {
+            } else {
                 Log.d("Todo", "실패 ${result.errorBody()}")
             }
         }
@@ -76,9 +79,33 @@ fun HomePage(navController: NavController = rememberNavController()) {
         InuButton(onClick = { getTodo() }, text = "투두 가져오기")
 
         Row {
-            TextField(value = input.value, onValueChange = {input.value = it})
+            TextField(value = input.value, onValueChange = { input.value = it })
             InuButton(onClick = { todoCreate(input.value) }, text = "투두 생성")
         }
+
+        InuButton(onClick = {
+            val service = RetrofitBuilder.getService(CategoryService::class.java)
+            CoroutineScope(Dispatchers.IO).launch {
+                val res = service.createCategory(
+                    memberId = MainActivity.user.memberId,
+
+                    body = CreateCategoryReq(
+                        content = "학교생활",
+                        color = "#ff0000"
+                    )
+                )
+
+                if (res.isSuccessful) {
+                    Log.d("CategoryTest", "생성 성공")
+                }
+
+                val res2 = service.getUserCategory(memberId = MainActivity.user.memberId)
+                if(res2.isSuccessful) {
+                    Log.d("CategoryTest", "조회 성공")
+                    Log.d("CategoryTest", res2.body()!!.toString()  )
+                }
+            }
+        }, text = "실험하기")
 
     }
 }
