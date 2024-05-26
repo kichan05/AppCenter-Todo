@@ -18,6 +18,7 @@ import dev.kichan.inu_todo.model.service.MemberService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Preview(showBackground = true)
 @Composable
@@ -25,7 +26,7 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
     val id = remember { mutableStateOf("") }
     val pass = remember { mutableStateOf("") }
 
-    val signUp : (String, String) -> Unit = {id, pass ->
+    val signUp: (String, String) -> Unit = { id, pass ->
         CoroutineScope(Dispatchers.IO).launch {
             val service = RetrofitBuilder.getService(MemberService::class.java)
 
@@ -37,11 +38,15 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
                 )
             )
 
-            if(result.isSuccessful) {
+            if (result.isSuccessful) {
                 MainActivity.user = result.body()!!
+                withContext(Dispatchers.Main) {
+                    navController.navigate(Page.Home.name)
+                    navController.clearBackStack(Page.SIGN_UP.name)
+                    navController.clearBackStack(Page.MAIN.name)
+                }
                 Log.d("SignUp", "성공")
-            }
-            else {
+            } else {
                 Log.d("SignUp", "실패")
             }
 

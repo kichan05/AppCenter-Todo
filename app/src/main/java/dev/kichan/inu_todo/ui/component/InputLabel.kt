@@ -2,6 +2,7 @@ package dev.kichan.inu_todo.ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 import dev.kichan.inu_todo.ui.theme.Red_400
+import dev.kichan.inu_todo.ui.theme.suit
 
 @Composable
 fun InputLabel(
@@ -43,6 +45,7 @@ fun InputLabel(
                 text = label,
                 style = TextStyle(
                     color = Color.Black,
+                    fontFamily = suit,
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp
                 )
@@ -53,6 +56,7 @@ fun InputLabel(
                     text = error,
                     style = TextStyle(
                         color = Red_400,
+                        fontFamily = suit,
                         fontSize = 14.sp,
                     ),
                     modifier = Modifier.padding(start = 9.dp)
@@ -83,6 +87,7 @@ fun InputLabelPreview() {
             value = "",
             onChange = {},
             label = "이름",
+            modifier = Modifier.fillMaxWidth(),
             placeholder = "이름을 입력하세요.",
             icon = Icons.Default.Person
         )
@@ -97,6 +102,7 @@ fun InputLabelErrorPreview() {
             value = "",
             onChange = {},
             label = "이름",
+            modifier = Modifier.fillMaxWidth(),
             placeholder = "이름을 입력하세요.",
             icon = Icons.Default.Person,
             error = "이미 사용중인 아이디입니다."

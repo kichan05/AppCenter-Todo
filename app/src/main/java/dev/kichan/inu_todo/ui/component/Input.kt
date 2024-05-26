@@ -61,8 +61,7 @@ fun Input(
         val backgroundColor = if(isSuccess) Blue_100 else if(isError) Red_100 else Gray_200
 
         Row(
-            Modifier
-                .fillMaxWidth()
+            modifier
                 .background(color = backgroundColor, shape = shape)
                 .let {
                     if (isSuccess || isError) it
@@ -102,7 +101,7 @@ fun InputPreview() {
         Input(
             input.value,
             { input.value = it },
-            Modifier.padding(12.dp),
+            Modifier.fillMaxWidth().padding(12.dp),
             placeholder = "이름을 입력하세요",
             icon = Icons.Default.Search,
         )
@@ -118,7 +117,7 @@ fun InputSuccessPreview() {
         Input(
             input.value,
             { input.value = it },
-            Modifier.padding(12.dp),
+            Modifier.fillMaxWidth().padding(12.dp),
             placeholder = "이름을 입력하세요",
             icon = Icons.Default.Search,
             isSuccess = true,
@@ -136,7 +135,7 @@ fun InputErrorPreview() {
         Input(
             input.value,
             { input.value = it },
-            Modifier.padding(12.dp),
+            Modifier.fillMaxWidth().padding(12.dp),
             isError = true,
             icon = Icons.Default.Search,
             placeholder = "이름을 입력하세요"

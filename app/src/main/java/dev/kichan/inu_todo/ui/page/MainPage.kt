@@ -83,7 +83,7 @@ fun MainPage(navController: NavController = rememberNavController()) {
 
             Image(painter = painterResource(id = R.drawable.logo), contentDescription = null)
             Text(
-                text = "나만의 Todo list로 하루하루 할차게!",
+                text = "나만의 Todo list로 하루하루 알차게!",
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium
@@ -112,13 +112,5 @@ fun MainPage(navController: NavController = rememberNavController()) {
                 border = BorderStroke(0.8.dp, Blue_400)
             )
         }
-
-//        InuButton(
-//            onClick = { navController.navigate(Page.Home.name) },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(vertical = 12.dp, horizontal = 17.dp),
-//            text = "홈",
-//        )
     }
 }
