@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.service.TodoService
+import dev.kichan.inu_todo.ui.component.Header
 import dev.kichan.inu_todo.ui.component.InuButton
 import dev.kichan.inu_todo.ui.component.TodoItem
 import kotlinx.coroutines.CoroutineScope
@@ -65,6 +67,7 @@ fun HomePage(navController: NavController = rememberNavController()) {
     }
 
     Column {
+        Header(title = "회원가입") {  }
         Text(text = MainActivity.user.toString())
 
         LazyColumn {
