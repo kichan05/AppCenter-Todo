@@ -43,12 +43,13 @@ fun InputLabel(
             value = value,
             onChange = onChange,
             modifier = modifier,
-            icon = icon,
-            placeholder = placeholder,
             textStyle = textStyle,
+            placeholder = placeholder,
+            icon = icon,
             singleLine = false,
             maxLines = maxLines,
             minLines = minLines,
+            isError = true,
         )
     }
 }

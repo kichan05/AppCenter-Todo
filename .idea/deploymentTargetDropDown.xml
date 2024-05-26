@@ -11,6 +11,9 @@
       <entry key="InputPreview">
         <State />
       </entry>
+      <entry key="InputSuccessPreview">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

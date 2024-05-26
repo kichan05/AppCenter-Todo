@@ -38,7 +38,9 @@ fun DesignPage() {
                 .fillMaxWidth ()
                 .padding(17.dp),
             placeholder = "이름을 입력하세요.",
-            icon = Icons.Default.Notifications
+            icon = Icons.Default.Notifications,
+            isSuccess = true,
+            isError = true
         )
     }
 }
