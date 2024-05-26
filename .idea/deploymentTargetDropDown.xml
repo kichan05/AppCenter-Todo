@@ -5,6 +5,12 @@
       <entry key="Input">
         <State />
       </entry>
+      <entry key="InputLabel">
+        <State />
+      </entry>
+      <entry key="InputPreview">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

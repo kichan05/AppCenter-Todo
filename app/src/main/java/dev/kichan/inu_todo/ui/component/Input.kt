@@ -1,6 +1,8 @@
 package dev.kichan.inu_todo.ui.component
 
+import android.text.Layout
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,23 +54,24 @@ fun Input(
                 .fillMaxWidth()
                 .background(color = Gray_200, shape = RoundedCornerShape(APP_ROUND))
                 .padding(horizontal = 10.dp, vertical = 17.dp),
-            verticalAlignment = Alignment.CenterVertically
         ) {
             if (icon != null) {
                 Icon(imageVector = icon, contentDescription = null, tint = Gray_600)
                 Spacer(modifier = Modifier.width(8.dp))
             }
 
-            if (value.isEmpty() && placeholder != null) {
-                Text(
-                    text = placeholder,
-                    style = textStyle.copy(
-                        color = Gray_600
-                    )
-                )
-            }
+            Box {
+                innerTextField()
 
-            innerTextField()
+                if (value.isBlank() && placeholder != null) {
+                    Text(
+                        text = placeholder,
+                        style = textStyle.copy(
+                            color = Gray_600
+                        )
+                    )
+                }
+            }
         }
     }
 }
@@ -80,6 +82,11 @@ fun InputPreview() {
     val input = remember { mutableStateOf("") }
 
     INUTodoTheme {
-        Input(input.value, { input.value = it }, icon = Icons.Default.Search)
+        Input(
+            input.value,
+            { input.value = it },
+            icon = Icons.Default.Search,
+            placeholder = "이름을 입력하세요"
+        )
     }
 }
