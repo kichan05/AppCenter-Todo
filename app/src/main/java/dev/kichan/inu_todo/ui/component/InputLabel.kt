@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,7 +37,7 @@ fun InputLabel(
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     minLines: Int = 1,
 ) {
-    Column(Modifier.padding(17.dp)) {
+    Column(modifier) {
         Row(
             Modifier.padding(start = 4.dp, bottom = 10.dp),
             verticalAlignment = Alignment.Bottom
@@ -87,7 +88,7 @@ fun InputLabelPreview() {
             value = "",
             onChange = {},
             label = "이름",
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.padding(8.dp).fillMaxWidth(),
             placeholder = "이름을 입력하세요.",
             icon = Icons.Default.Person
         )
@@ -102,7 +103,7 @@ fun InputLabelErrorPreview() {
             value = "",
             onChange = {},
             label = "이름",
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.padding(8.dp).fillMaxWidth(),
             placeholder = "이름을 입력하세요.",
             icon = Icons.Default.Person,
             error = "이미 사용중인 아이디입니다."

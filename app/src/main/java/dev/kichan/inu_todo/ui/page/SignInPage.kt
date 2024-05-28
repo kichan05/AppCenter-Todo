@@ -1,21 +1,31 @@
 package dev.kichan.inu_todo.ui.page
 
 import android.util.Log
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.twotone.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.MainActivity
+import dev.kichan.inu_todo.R
 import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.member.SignInReq
 import dev.kichan.inu_todo.model.service.MemberService
@@ -61,33 +71,43 @@ fun SignInPage(navController: NavController = rememberNavController()) {
         }
     }
 
-    Column(Modifier.fillMaxSize()) {
+
+    Column {
         Header(title = "로그인") { }
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(vertical = 8.dp, horizontal = 17.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(19.dp)
+            ) {
+                InputLabel(
+                    value = id.value,
+                    onChange = { id.value = it },
+                    label = "아이디",
+                    placeholder = "아이디를 입력해주세요",
+                    modifier = Modifier.fillMaxWidth(),
+                    icon = Icons.Outlined.Person
+                )
 
-        Column {
-            InputLabel(
-                value = id.value,
-                onChange = { id.value = it },
-                label = "아이디",
-                placeholder = "아이디를 입력해주세요",
-                modifier = Modifier.fillMaxWidth(),
-                icon = Icons.Default.Person
-            )
+                InputLabel(
+                    value = password.value,
+                    onChange = { password.value = it },
+                    label = "비밀번호",
+                    placeholder = "비밀번호를 입력해주세요",
+                    modifier = Modifier.fillMaxWidth(),
+                    icon = Icons.Outlined.Lock
+                )
+            }
 
-            InputLabel(
-                value = password.value,
-                onChange = { password.value = it },
-                label = "비밀번호",
-                placeholder = "비밀번호를 입력해주세요",
+            InuButton(
+                onClick = { signIn(id.value, password.value) },
+                text = "로그인",
                 modifier = Modifier.fillMaxWidth(),
-                icon = Icons.Default.Person
+                isDisable = id.value.isBlank() || password.value.isBlank()
             )
         }
-
-        InuButton(onClick = { /*TODO*/ }, text = "로그인")
-
-//        Button(onClick = { signIn(id.value, password.value) }) {
-//            Text(text = "로그인")
-//        }
     }
 }
