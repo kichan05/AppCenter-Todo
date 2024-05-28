@@ -68,7 +68,7 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
     }
 
     Column(Modifier.fillMaxSize()) {
-        Header(title = "회원가입") { }
+        Header(title = "회원가입") { navController.popBackStack() }
         Column(
             Modifier
                 .weight(1f)

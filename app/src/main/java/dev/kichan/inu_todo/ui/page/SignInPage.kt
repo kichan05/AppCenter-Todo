@@ -74,7 +74,9 @@ fun SignInPage(navController: NavController = rememberNavController()) {
 
 
     Column {
-        Header(title = "로그인") { }
+        Header(title = "로그인") {
+            navController.popBackStack()
+        }
         Column(
             Modifier
                 .fillMaxSize()
