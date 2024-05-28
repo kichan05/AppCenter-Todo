@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
@@ -105,7 +106,7 @@ fun SignInPage(navController: NavController = rememberNavController()) {
             InuButton(
                 onClick = { signIn(id.value, password.value) },
                 text = "로그인",
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().imePadding(),
                 isDisable = id.value.isBlank() || password.value.isBlank()
             )
         }
