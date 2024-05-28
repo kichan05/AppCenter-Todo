@@ -1,5 +1,6 @@
 package dev.kichan.inu_todo.ui.component
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,17 +38,21 @@ fun InuButton(
     border: BorderStroke? = null,
     isDisable: Boolean = false,
 ) {
+    val bgc = animateColorAsState(
+        targetValue = if (!isDisable) {
+            backgroundColor
+        } else {
+            Gray_400
+        }
+    )
+
 
     Column(
         modifier
             .clickable(!isDisable) { onClick() }
             .let { if (border != null) it.border(border, shape) else it }
             .background(
-                color = if (!isDisable) {
-                    backgroundColor
-                } else {
-                    Gray_400
-                }, shape = shape
+                color = bgc.value, shape = shape
             )
             .padding(horizontal = 12.dp, vertical = 15.dp),
         verticalArrangement = Arrangement.Center,

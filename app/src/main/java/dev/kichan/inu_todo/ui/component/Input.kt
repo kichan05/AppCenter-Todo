@@ -77,8 +77,6 @@ fun Input(
             }
 
             Box {
-                innerTextField()
-
                 if (value.isBlank() && placeholder != null) {
                     Text(
                         text = placeholder,
@@ -87,6 +85,8 @@ fun Input(
                         )
                     )
                 }
+
+                innerTextField()
             }
         }
     }
