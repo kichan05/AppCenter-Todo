@@ -16,8 +16,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.MainActivity
 import dev.kichan.inu_todo.model.RetrofitBuilder
+import dev.kichan.inu_todo.model.data.category.Category
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
+import dev.kichan.inu_todo.model.service.CategoryService
 import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.component.HomeHeader
 import dev.kichan.inu_todo.ui.component.InuButton
@@ -30,8 +32,9 @@ import java.time.LocalDate
 @Preview
 @Composable
 fun HomePage(navController: NavController = rememberNavController()) {
-    val todoList = rememberSaveable { mutableStateOf<List<Todo>>(listOf()) }
     val input = remember { mutableStateOf("") }
+    val todoList = rememberSaveable { mutableStateOf<List<Todo>>(listOf()) }
+    val categoryList = remember { mutableStateOf<List<Category>>(listOf()) }
     val seleteDate = remember {
         mutableStateOf(LocalDate.now())
     }
@@ -43,6 +46,17 @@ fun HomePage(navController: NavController = rememberNavController()) {
             val res = service.getTodo(MainActivity.user.memberId)
             if (res.isSuccessful) {
                 todoList.value = res.body()!!
+            }
+        }
+    }
+
+    val getCategory = {
+        val categoryService = RetrofitBuilder.getService(CategoryService::class.java)
+        CoroutineScope(Dispatchers.IO).launch {
+            val res = categoryService.getUserCategory(MainActivity.user.memberId)
+
+            if(res.isSuccessful) {
+                categoryList.value = res.body()!!
             }
         }
     }
@@ -69,7 +83,8 @@ fun HomePage(navController: NavController = rememberNavController()) {
         }
     }
 
-//    getTodo()
+    getTodo()
+    getCategory()
 
     Column {
         HomeHeader()
