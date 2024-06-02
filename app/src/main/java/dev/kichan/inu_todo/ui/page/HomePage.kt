@@ -66,7 +66,6 @@ fun HomePage(navController: NavController = rememberNavController()) {
     }
 
     Column {
-        Header(title = "회원가입") {  }
         Text(text = MainActivity.user.toString())
 
         LazyColumn {

@@ -61,6 +61,7 @@ fun MainPage(navController: NavController = rememberNavController()) {
     }
 
     signIn("android", "qwer1234!")
+    val imageIdList = listOf<Int>(R.drawable.main_image_1, R.drawable.main_image_2, R.drawable.main_image_3)
 
     Column(
         Modifier
@@ -74,7 +75,7 @@ fun MainPage(navController: NavController = rememberNavController()) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painterResource(id = R.drawable.main_image_1),
+                painterResource(id = imageIdList.random()),
                 contentDescription = null,
                 modifier = Modifier
                     .width(180.dp)
