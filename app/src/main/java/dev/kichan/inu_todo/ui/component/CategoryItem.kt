@@ -20,14 +20,13 @@ import dev.kichan.inu_todo.ui.theme.suit
 
 @Composable
 fun CategoryItem(category: Category) {
-    val color = Color(android.graphics.Color.parseColor("#${category.color}"))
     val shape = RoundedCornerShape(50.dp)
 
     Text(
         text = category.content,
         modifier = Modifier
-            .background(color.copy(alpha = 0.3f), shape)
-            .border(1.dp, color, shape)
+            .background(category.colorValue.copy(alpha = 0.3f), shape)
+            .border(1.dp, category.colorValue, shape)
             .padding(vertical = 7.dp, horizontal = 15.dp),
         style = TextStyle(
             color = Color(0xff735B37),

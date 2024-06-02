@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,11 +19,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,67 +48,61 @@ import dev.kichan.inu_todo.model.service.CategoryService
 import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.component.CategoryItem
 import dev.kichan.inu_todo.ui.component.HomeHeader
-import dev.kichan.inu_todo.ui.component.InuButton
 import dev.kichan.inu_todo.ui.component.TodoItem
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 import dev.kichan.inu_todo.ui.theme.suit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 
 @Composable
 fun HomePage(navController: NavController) {
-    val input = remember { mutableStateOf("") }
     val todoList = rememberSaveable { mutableStateOf<List<Todo>>(listOf()) }
     val categoryList = remember { mutableStateOf<List<Category>>(listOf()) }
 
-    val getTodo = {
-        val service = RetrofitBuilder.getService(TodoService::class.java)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val res = service.getTodo(MainActivity.user.memberId)
-            if (res.isSuccessful) {
-                todoList.value = res.body()!!
-            }
-        }
-    }
-
-    val getCategory = {
+    val getData = {
+        val todoService = RetrofitBuilder.getService(TodoService::class.java)
         val categoryService = RetrofitBuilder.getService(CategoryService::class.java)
-        CoroutineScope(Dispatchers.IO).launch {
-            val res = categoryService.getUserCategory(MainActivity.user.memberId)
 
-            if (res.isSuccessful) {
-                categoryList.value = res.body()!!
+        CoroutineScope(Dispatchers.IO).launch {
+            val todoRes = todoService.getTodo(MainActivity.user.memberId)
+            if (todoRes.isSuccessful) {
+                todoList.value = todoRes.body()!!
+            }
+
+            val categoryRes = categoryService.getUserCategory(MainActivity.user.memberId)
+            if (categoryRes.isSuccessful) {
+                categoryList.value = categoryRes.body()!!
             }
         }
     }
 
-    val todoCreate: (String) -> Unit = {
-        val service = RetrofitBuilder.getService(TodoService::class.java)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val result = service.todoCreate(
-                memberId = MainActivity.user.memberId,
-                body = TodoCreateReq(
-                    category = "Test",
-                    content = it,
-                    setDate = "2024-05-22",
-                    writeDate = "2024-05-22"
-                ),
-            )
-
-            if (result.isSuccessful) {
-                Log.d("Todo", "성공")
-            } else {
-                Log.d("Todo", "실패 ${result.errorBody()}")
-            }
-        }
-    }
+//    val todoCreate: (String) -> Unit = {
+//        val service = RetrofitBuilder.getService(TodoService::class.java)
+//
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val result = service.todoCreate(
+//                memberId = MainActivity.user.memberId,
+//                body = TodoCreateReq(
+//                    category = "Test",
+//                    content = it,
+//                    setDate = "2024-05-22",
+//                    writeDate = "2024-05-22"
+//                ),
+//            )
+//
+//            if (result.isSuccessful) {
+//                Log.d("Todo", "성공")
+//            } else {
+//                Log.d("Todo", "실패 ${result.errorBody()}")
+//            }
+//        }
+//    }
 
 //    getTodo()
 //    getCategory()
+
+    getData()
 
     Column(Modifier.fillMaxSize()) {
         HomeHeader()
@@ -124,7 +117,8 @@ fun HomePage(navController: NavController) {
                     fontFamily = suit,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 25.sp,
-                )
+                ),
+                modifier = Modifier.padding(start = 24.dp)
             )
 
             Image(
@@ -160,19 +154,31 @@ fun HomePage(navController: NavController) {
             }
         }
 
-        LazyColumn {
-            items(todoList.value) {
-                TodoItem(todo = it)
+
+        val shape = RoundedCornerShape(12.dp)
+
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 18.dp, start = 13.dp, end = 13.dp)
+                .shadow(3.dp, shape)
+                .background(Color.White, shape)
+                .padding(vertical = 20.dp, horizontal = 15.dp)
+        ) {
+            Text(
+                text = "15일",
+                style = TextStyle(
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = suit,
+                ),
+            )
+
+            LazyColumn {
+                items(todoList.value) {
+                    TodoItem(todo = it)
+                }
             }
-        }
-
-        InuButton(onClick = { getTodo() }, text = "투두 가져오기")
-        InuButton(onClick = { getCategory() }, text = "카테고리 가져오기")
-        InuButton(onClick = { navController.navigate(Page.Category.name) }, text = "카테고리 추가")
-
-        Row {
-            TextField(value = input.value, onValueChange = { input.value = it })
-            InuButton(onClick = { todoCreate(input.value) }, text = "투두 생성")
         }
     }
 }
