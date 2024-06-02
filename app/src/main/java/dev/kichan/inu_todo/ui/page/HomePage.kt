@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -106,78 +107,103 @@ fun HomePage(navController: NavController) {
 
     Column(Modifier.fillMaxSize()) {
         HomeHeader()
-        Row(
-            Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "5월",
-                style = TextStyle(
-                    color = Color(0xff553910),
-                    fontFamily = suit,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 25.sp,
-                ),
-                modifier = Modifier.padding(start = 24.dp)
-            )
-
-            Image(
-                painter = painterResource(id = R.drawable.ic_calendar_days),
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(start = 7.dp)
-                    .shadow(3.dp, RoundedCornerShape(100.dp))
-                    .background(Color.White)
-                    .padding(6.dp)
-            )
-
-            LazyRow(
-                modifier = Modifier.weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+        Column(Modifier.padding(horizontal = 13.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                items(categoryList.value) {
-                    CategoryItem(category = it)
-                }
-                item {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .width(30.dp)
-                            .height(30.dp)
-                            .background(Color(0xfff5f5f5), RoundedCornerShape(100.dp))
-                            .clickable { navController.navigate(Page.Category.name) },
-                        tint = Color(0xffA2A2A2)
-                    )
+                Text(
+                    text = "5월",
+                    style = TextStyle(
+                        color = Color(0xff553910),
+                        fontFamily = suit,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 25.sp,
+                    ),
+                )
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_calendar_days),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(start = 7.dp)
+                        .shadow(3.dp, RoundedCornerShape(100.dp))
+                        .background(Color.White)
+                        .padding(6.dp)
+                )
+
+                LazyRow(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    items(categoryList.value) {
+                        CategoryItem(category = it)
+                    }
+                    item {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(30.dp)
+                                .height(30.dp)
+                                .background(Color(0xfff5f5f5), RoundedCornerShape(100.dp))
+                                .clickable { navController.navigate(Page.Category.name) },
+                            tint = Color(0xffA2A2A2)
+                        )
+                    }
                 }
             }
-        }
 
+            val shape = RoundedCornerShape(12.dp)
 
-        val shape = RoundedCornerShape(12.dp)
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 18.dp)
+                    .shadow(3.dp, shape)
+                    .background(Color.White, shape)
+                    .padding(vertical = 20.dp, horizontal = 15.dp)
+            ) {
+                Text(
+                    text = "15일",
+                    style = TextStyle(
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        fontFamily = suit,
+                    ),
+                )
 
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 18.dp, start = 13.dp, end = 13.dp)
-                .shadow(3.dp, shape)
-                .background(Color.White, shape)
-                .padding(vertical = 20.dp, horizontal = 15.dp)
-        ) {
-            Text(
-                text = "15일",
-                style = TextStyle(
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    fontFamily = suit,
-                ),
-            )
-
-            LazyColumn {
-                items(todoList.value) {
-                    TodoItem(todo = it)
+                LazyColumn {
+                    items(todoList.value) {
+                        TodoItem(todo = it)
+                    }
                 }
+            }
+
+            Row(
+                Modifier
+                    .padding(top = 27.dp)
+                    .fillMaxWidth()
+                    .background(Color(0xfff5f5f5), RoundedCornerShape(12.dp))
+                    .padding(vertical = 21.dp),
+
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.AddCircle,
+                    contentDescription = null,
+                    tint = Color(0xffa2a2a2)
+                )
+                Text(
+                    text = "Todolis 추가",
+                    style = TextStyle(
+                        fontFamily = suit,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 16.sp
+                    )
+                )
             }
         }
     }
