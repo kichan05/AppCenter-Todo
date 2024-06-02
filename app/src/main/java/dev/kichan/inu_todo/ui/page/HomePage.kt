@@ -19,18 +19,22 @@ import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.service.TodoService
-import dev.kichan.inu_todo.ui.component.Header
+import dev.kichan.inu_todo.ui.component.HomeHeader
 import dev.kichan.inu_todo.ui.component.InuButton
 import dev.kichan.inu_todo.ui.component.TodoItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Preview
 @Composable
 fun HomePage(navController: NavController = rememberNavController()) {
     val todoList = rememberSaveable { mutableStateOf<List<Todo>>(listOf()) }
     val input = remember { mutableStateOf("") }
+    val seleteDate = remember {
+        mutableStateOf(LocalDate.now())
+    }
 
     val getTodo = {
         val service = RetrofitBuilder.getService(TodoService::class.java)
@@ -65,7 +69,10 @@ fun HomePage(navController: NavController = rememberNavController()) {
         }
     }
 
+//    getTodo()
+
     Column {
+        HomeHeader()
         Text(text = MainActivity.user.toString())
 
         LazyColumn {
@@ -75,6 +82,7 @@ fun HomePage(navController: NavController = rememberNavController()) {
         }
 
         InuButton(onClick = { getTodo() }, text = "투두 가져오기")
+        InuButton(onClick = { navController.navigate(Page.Category.name) }, text = "카테고리 추가")
 
         Row {
             TextField(value = input.value, onValueChange = { input.value = it })

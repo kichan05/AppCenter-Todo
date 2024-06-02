@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +27,6 @@ import dev.kichan.inu_todo.MainActivity
 import dev.kichan.inu_todo.R
 import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.member.SignInReq
-import dev.kichan.inu_todo.model.data.member.User
 import dev.kichan.inu_todo.model.service.MemberService
 import dev.kichan.inu_todo.ui.component.InuButton
 import dev.kichan.inu_todo.ui.theme.Blue_400

@@ -3,18 +3,17 @@ package dev.kichan.inu_todo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.model.data.member.User
+import dev.kichan.inu_todo.ui.page.CategoryPage
 import dev.kichan.inu_todo.ui.page.HomePage
 import dev.kichan.inu_todo.ui.page.MainPage
 import dev.kichan.inu_todo.ui.page.Page
@@ -27,7 +26,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Scaffold {
-                MyApp(Modifier.fillMaxSize().padding(it))
+                MyApp(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(it))
             }
         }
     }
@@ -55,6 +57,9 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable(route = Page.Home.name) {
                 HomePage(navController)
+            }
+            composable(route = Page.Category.name) {
+                CategoryPage(navController)
             }
         }
     }

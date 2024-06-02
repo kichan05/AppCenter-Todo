@@ -1,5 +1,6 @@
 package dev.kichan.inu_todo.model
 
+import dev.kichan.inu_todo.model.service.CategoryService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.conscrypt.BuildConfig
