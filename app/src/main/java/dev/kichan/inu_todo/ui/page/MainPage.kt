@@ -37,28 +37,6 @@ import kotlinx.coroutines.launch
 @Preview(showBackground = true)
 @Composable
 fun MainPage(navController: NavController = rememberNavController()) {
-    val signIn: (String, String) -> Unit = { id, pass ->
-        CoroutineScope(Dispatchers.IO).launch {
-            val service = RetrofitBuilder.getService(MemberService::class.java)
-            val result = service.signIn(
-                body = SignInReq(
-                    userId = id,
-                    userPw = pass
-                )
-            )
-
-            if (result.isSuccessful) {
-                MainActivity.user = result.body()!!
-                Log.d("SignIn", "성공")
-            } else {
-                Log.d("SignIn", "실패")
-            }
-
-            Log.d("SignIn", result.body().toString())
-        }
-    }
-
-    signIn("android", "qwer1234!")
     val imageIdList = listOf<Int>(R.drawable.main_image_1, R.drawable.main_image_2, R.drawable.main_image_3)
 
     Column(

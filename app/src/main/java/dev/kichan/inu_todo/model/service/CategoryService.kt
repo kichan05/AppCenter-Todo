@@ -12,7 +12,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface CategoryService {
-    @GET("/category/{memberId}")
+    @GET("/category/categories/{memberId}")
     suspend fun getUserCategory(
         @Path("memberId")
         memberId: Int
