@@ -19,6 +19,7 @@ import dev.kichan.inu_todo.ui.page.MainPage
 import dev.kichan.inu_todo.ui.page.Page
 import dev.kichan.inu_todo.ui.page.SignInPage
 import dev.kichan.inu_todo.ui.page.SignUpPage
+import dev.kichan.inu_todo.ui.page.TodoAddPage
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 
 class MainActivity : ComponentActivity() {
@@ -60,6 +61,9 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable(route = Page.Category.name) {
                 CategoryPage(navController)
+            }
+            composable(route = Page.TODO_ADD.name) {
+                TodoAddPage(navController = navController)
             }
         }
     }

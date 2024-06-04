@@ -19,12 +19,12 @@ import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 import dev.kichan.inu_todo.ui.theme.suit
 
 @Composable
-fun CategoryItem(category: Category) {
+fun CategoryItem(category: Category, modifier: Modifier = Modifier) {
     val shape = RoundedCornerShape(50.dp)
 
     Text(
         text = category.content,
-        modifier = Modifier
+        modifier = modifier
             .background(category.colorValue.copy(alpha = 0.3f), shape)
             .border(1.dp, category.colorValue, shape)
             .padding(vertical = 7.dp, horizontal = 15.dp),

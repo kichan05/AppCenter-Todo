@@ -56,6 +56,7 @@ import dev.kichan.inu_todo.ui.theme.suit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun HomePage(navController: NavController) {
@@ -69,37 +70,20 @@ fun HomePage(navController: NavController) {
         CoroutineScope(Dispatchers.IO).launch {
             val todoRes = todoService.getTodo(MainActivity.user.memberId)
             if (todoRes.isSuccessful) {
-                todoList.value = todoRes.body()!!
+                withContext(Dispatchers.Main) {
+                    todoList.value = todoRes.body()!!
+                }
             }
 
             val categoryRes = categoryService.getUserCategory(MainActivity.user.memberId)
             if (categoryRes.isSuccessful) {
-                categoryList.value = categoryRes.body()!!
+                withContext(Dispatchers.Main) {
+                    categoryList.value = categoryRes.body()!!
+                }
             }
         }
     }
 
-//    val todoCreate: (String) -> Unit = {
-//        val service = RetrofitBuilder.getService(TodoService::class.java)
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val result = service.todoCreate(
-//                memberId = MainActivity.user.memberId,
-//                body = TodoCreateReq(
-//                    category = "Test",
-//                    content = it,
-//                    setDate = "2024-05-22",
-//                    writeDate = "2024-05-22"
-//                ),
-//            )
-//
-//            if (result.isSuccessful) {
-//                Log.d("Todo", "성공")
-//            } else {
-//                Log.d("Todo", "실패 ${result.errorBody()}")
-//            }
-//        }
-//    }
 
 //    getTodo()
 //    getCategory()
@@ -189,6 +173,7 @@ fun HomePage(navController: NavController) {
                 Modifier
                     .padding(top = 27.dp)
                     .fillMaxWidth()
+                    .clickable { navController.navigate(Page.TODO_ADD.name) }
                     .background(Color(0xfff5f5f5), RoundedCornerShape(12.dp))
                     .padding(vertical = 21.dp),
 
