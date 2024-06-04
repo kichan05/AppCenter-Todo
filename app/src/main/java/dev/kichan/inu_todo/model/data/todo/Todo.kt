@@ -12,7 +12,7 @@ data class Todo(
     @retrofit2.http.Field("setDate") val _setDate: String,
     @retrofit2.http.Field("writeDate") val _writeDate: String,
 ) {
-    val getDate : LocalDate
+    val setDate : LocalDate
         get() {
             val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             val localDate = LocalDate.parse(this._setDate, dateFormatter)
