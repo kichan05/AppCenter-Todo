@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,16 +32,19 @@ import dev.kichan.inu_todo.ui.theme.APP_ROUND
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 
 @Composable
-fun TodoItem(todo: Todo, modifier: Modifier = Modifier) {
+fun TodoItem(todo: Todo, modifier: Modifier = Modifier, onClick: (Todo) -> Unit) {
+    val checkModifier = Modifier
+        .width(22.dp)
+        .height(22.dp)
+        .clickable { onClick(todo) }
+
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (todo.checked) {
             Surface(
-                Modifier
-                    .width(22.dp)
-                    .height(22.dp),
+                checkModifier,
                 shape = RoundedCornerShape(100.dp),
                 color = todo.category.colorValue,
             ) {
@@ -53,9 +57,7 @@ fun TodoItem(todo: Todo, modifier: Modifier = Modifier) {
             }
         } else {
             Surface(
-                Modifier
-                    .width(22.dp)
-                    .height(22.dp),
+                checkModifier,
                 shape = RoundedCornerShape(100.dp),
                 border = BorderStroke(1.dp, todo.category.colorValue)
             ) { }
@@ -92,7 +94,8 @@ fun TodoItemPreview() {
                 content = "habitant",
                 _setDate = "usu",
                 _writeDate = "cetero"
-            )
+            ),
+            onClick = {}
         )
     }
 }

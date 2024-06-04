@@ -1,5 +1,6 @@
 package dev.kichan.inu_todo.model.data.todo
 
+import com.google.gson.annotations.SerializedName
 import dev.kichan.inu_todo.model.data.category.Category
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -9,8 +10,8 @@ data class Todo(
     val category: Category,
     val checked: Boolean,
     val content: String,
-    @retrofit2.http.Field("setDate") val _setDate: String,
-    @retrofit2.http.Field("writeDate") val _writeDate: String,
+    @SerializedName("setDate") val _setDate: String,
+    @SerializedName("writeDate") val _writeDate: String,
 ) {
     val setDate : LocalDate
         get() {

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,7 +43,6 @@ import dev.kichan.inu_todo.R
 import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.category.Category
 import dev.kichan.inu_todo.model.data.todo.Todo
-import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.service.CategoryService
 import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.component.CategoryItem
@@ -60,22 +57,24 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun HomePage(navController: NavController) {
+    val todoService = RetrofitBuilder.getService(TodoService::class.java)
+    val categoryService = RetrofitBuilder.getService(CategoryService::class.java)
+
     val todoList = rememberSaveable { mutableStateOf<List<Todo>>(listOf()) }
     val categoryList = remember { mutableStateOf<List<Category>>(listOf()) }
 
     val getData = {
-        val todoService = RetrofitBuilder.getService(TodoService::class.java)
-        val categoryService = RetrofitBuilder.getService(CategoryService::class.java)
 
         CoroutineScope(Dispatchers.IO).launch {
             val todoRes = todoService.getTodo(MainActivity.user.memberId)
+            val categoryRes = categoryService.getUserCategory(MainActivity.user.memberId)
+
             if (todoRes.isSuccessful) {
                 withContext(Dispatchers.Main) {
                     todoList.value = todoRes.body()!!
                 }
             }
 
-            val categoryRes = categoryService.getUserCategory(MainActivity.user.memberId)
             if (categoryRes.isSuccessful) {
                 withContext(Dispatchers.Main) {
                     categoryList.value = categoryRes.body()!!
@@ -84,9 +83,21 @@ fun HomePage(navController: NavController) {
         }
     }
 
+    val checkTodo : (Todo) -> Unit = {
+        CoroutineScope(Dispatchers.IO).launch {
+            val res = todoService.editTodo(
+                it.todoId,
+                it.copy(checked = !it.checked)
+            )
 
-//    getTodo()
-//    getCategory()
+            if(res.isSuccessful) {
+                getData()
+            }
+            else {
+                Log.d("TodoCheck", "실패")
+            }
+        }
+    }
 
     getData()
 
@@ -164,7 +175,7 @@ fun HomePage(navController: NavController) {
                     contentPadding = PaddingValues(vertical = 12.dp)
                 ) {
                     items(todoList.value) {
-                        TodoItem(todo = it)
+                        TodoItem(todo = it, onClick = checkTodo)
                     }
                 }
             }
