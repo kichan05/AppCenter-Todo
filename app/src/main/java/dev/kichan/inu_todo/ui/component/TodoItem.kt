@@ -90,8 +90,8 @@ fun TodoItemPreview() {
                 ),
                 checked = true,
                 content = "habitant",
-                setDate = "usu",
-                writeDate = "cetero"
+                _setDate = "usu",
+                _writeDate = "cetero"
             )
         )
     }
