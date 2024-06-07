@@ -1,6 +1,6 @@
 package dev.kichan.inu_todo.ui.page
 
-import android.util.Log
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -23,6 +24,7 @@ import dev.kichan.inu_todo.model.data.member.SignUpReq
 import dev.kichan.inu_todo.model.service.MemberService
 import dev.kichan.inu_todo.ui.component.Header
 import dev.kichan.inu_todo.ui.component.InputLabel
+import dev.kichan.inu_todo.ui.component.InputType
 import dev.kichan.inu_todo.ui.component.InuButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +38,7 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
     val pass = remember { mutableStateOf("") }
     val passConfirm = remember { mutableStateOf("") }
 
-    val signUp: (String, String) -> Unit = { id, pass ->
+    val signUp: (String, String, Context) -> Unit = { id, pass, context ->
         CoroutineScope(Dispatchers.IO).launch {
             val service = RetrofitBuilder.getService(MemberService::class.java)
 
@@ -55,12 +57,9 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
                     navController.clearBackStack(Page.SIGN_UP.name)
                     navController.clearBackStack(Page.MAIN.name)
                 }
-                Log.d("SignUp", "성공")
             } else {
-                Log.d("SignUp", "실패")
+                MainActivity.showToast(context, "회원가입 실패")
             }
-
-            Log.d("SignUp", result.body().toString())
         }
     }
 
@@ -90,7 +89,8 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
                     label = "비밀번호",
                     placeholder = "비밀번호를 입력해주세요",
                     modifier = Modifier.fillMaxWidth(),
-                    icon = Icons.Outlined.Lock
+                    icon = Icons.Outlined.Lock,
+                    inputType = InputType.Password,
                 )
 
                 InputLabel(
@@ -99,12 +99,15 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
                     label = "비밀번호 확인",
                     placeholder = "비밀번호를 입력해주세요",
                     modifier = Modifier.fillMaxWidth(),
-                    icon = Icons.Outlined.Lock
+                    icon = Icons.Outlined.Lock,
+                    inputType = InputType.Password,
                 )
             }
 
+            val context = LocalContext.current
+
             InuButton(
-                onClick = { signUp(id.value, pass.value) },
+                onClick = { signUp(id.value, pass.value, context) },
                 text = "로그인",
                 modifier = Modifier.fillMaxWidth(),
                 isDisable = id.value.isBlank() || pass.value.isBlank() || passConfirm.value.isBlank()

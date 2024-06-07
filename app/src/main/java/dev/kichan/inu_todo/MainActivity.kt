@@ -1,6 +1,8 @@
 package dev.kichan.inu_todo
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +39,9 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         lateinit var user: User
+        fun showToast(context : Context, message : String) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
     }
 }
 

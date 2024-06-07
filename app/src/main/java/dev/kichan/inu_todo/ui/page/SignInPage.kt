@@ -1,5 +1,6 @@
 package dev.kichan.inu_todo.ui.page
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -30,13 +31,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@Preview(showBackground = true)
+
 @Composable
 fun SignInPage(navController: NavController = rememberNavController()) {
     val id = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
 
-    val signIn: (String, String) -> Unit = { id, pass ->
+    val signIn: (String, String, Context) -> Unit = { id, pass, context ->
         CoroutineScope(Dispatchers.IO).launch {
             val service = RetrofitBuilder.getService(MemberService::class.java)
             val result = service.signIn(
@@ -55,9 +56,10 @@ fun SignInPage(navController: NavController = rememberNavController()) {
                     navController.clearBackStack(Page.MAIN.name)
                 }
 
-                Log.d("SignIn", "성공")
             } else {
-                Log.d("SignIn", "실패")
+                withContext(Dispatchers.Main) {
+                    MainActivity.showToast(context, "로그인실패")
+                }
             }
 
             Log.d("SignIn", result.body().toString())
@@ -84,7 +86,8 @@ fun SignInPage(navController: NavController = rememberNavController()) {
                     label = "아이디",
                     placeholder = "아이디를 입력해주세요",
                     modifier = Modifier.fillMaxWidth(),
-                    icon = Icons.Outlined.Person
+                    icon = Icons.Outlined.Person,
+                    singleLine = true,
                 )
 
                 InputLabel(
@@ -93,14 +96,19 @@ fun SignInPage(navController: NavController = rememberNavController()) {
                     label = "비밀번호",
                     placeholder = "비밀번호를 입력해주세요",
                     modifier = Modifier.fillMaxWidth(),
-                    icon = Icons.Outlined.Lock
+                    icon = Icons.Outlined.Lock,
+                    singleLine = true,
                 )
             }
 
+            val context = LocalContext.current
+
             InuButton(
-                onClick = { signIn(id.value, password.value) },
+                onClick = { signIn(id.value, password.value, context) },
                 text = "로그인",
-                modifier = Modifier.fillMaxWidth().imePadding(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .imePadding(),
                 isDisable = id.value.isBlank() || password.value.isBlank()
             )
         }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +39,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainPage(navController: NavController = rememberNavController()) {
     val imageIdList = listOf<Int>(R.drawable.main_image_1, R.drawable.main_image_2, R.drawable.main_image_3)
+    val mainImage = remember {
+        imageIdList.random()
+    }
 
     Column(
         Modifier
@@ -51,7 +55,7 @@ fun MainPage(navController: NavController = rememberNavController()) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painterResource(id = imageIdList.random()),
+                painterResource(id = mainImage),
                 contentDescription = null,
                 modifier = Modifier
                     .width(180.dp)

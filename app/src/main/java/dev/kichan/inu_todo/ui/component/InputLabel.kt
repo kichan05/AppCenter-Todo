@@ -36,6 +36,7 @@ fun InputLabel(
     singleLine: Boolean = false,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     minLines: Int = 1,
+    inputType: InputType = InputType.Text
 ) {
     Column(modifier) {
         Row(
@@ -76,6 +77,7 @@ fun InputLabel(
             singleLine = false,
             maxLines = maxLines,
             minLines = minLines,
+            inputType = inputType
         )
     }
 }
