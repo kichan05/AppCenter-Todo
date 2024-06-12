@@ -18,6 +18,7 @@ import dev.kichan.inu_todo.model.data.member.User
 import dev.kichan.inu_todo.ui.page.CategoryPage
 import dev.kichan.inu_todo.ui.page.HomePage
 import dev.kichan.inu_todo.ui.page.MainPage
+import dev.kichan.inu_todo.ui.page.MyPage
 import dev.kichan.inu_todo.ui.page.Page
 import dev.kichan.inu_todo.ui.page.SignInPage
 import dev.kichan.inu_todo.ui.page.SignUpPage
@@ -69,6 +70,9 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable(route = Page.TODO_ADD.name) {
                 TodoAddPage(navController = navController)
+            }
+            composable(route = Page.MY.name) {
+                MyPage(navController = navController)
             }
         }
     }
