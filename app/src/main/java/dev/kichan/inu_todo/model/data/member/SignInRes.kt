@@ -1,3 +1,5 @@
 package dev.kichan.inu_todo.model.data.member
 
-class SignInRes{}
+data class SignInRes (
+    val accessToken : String
+)

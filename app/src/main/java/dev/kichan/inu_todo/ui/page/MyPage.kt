@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,6 +45,7 @@ import dev.kichan.inu_todo.model.service.MemberService
 import dev.kichan.inu_todo.ui.component.Header
 import dev.kichan.inu_todo.ui.theme.Blue_100
 import dev.kichan.inu_todo.ui.theme.Blue_400
+import dev.kichan.inu_todo.ui.theme.Gray_200
 import dev.kichan.inu_todo.ui.theme.Gray_300
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 import dev.kichan.inu_todo.ui.theme.Red_300
@@ -55,84 +57,14 @@ import kotlinx.coroutines.withContext
 
 @Composable
 fun MyPage(navController: NavHostController) {
-    @Composable
-    fun WithdrawalDialog(
-        onDismiss: () -> Unit,
-        onWithdrawal: () -> Unit
-    ) {
-        Dialog(
-            onDismissRequest = onDismiss,
-            properties = DialogProperties(dismissOnClickOutside = true)
-        ) {
-            Card(
-                shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                )
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(modifier = Modifier.height(45.dp))
-                    Text(
-                        text = "김사랑님,\n정말 계정을 삭제하실건가요?",
-                        fontFamily = suit,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black,
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(modifier = Modifier.height(15.dp))
-                    Image(
-                        painter = painterResource(id = R.drawable.boom),
-                        modifier = Modifier
-                            .width(126.dp)
-                            .height(126.dp),
-                        contentDescription = null,
-                    )
-                    Spacer(modifier = Modifier.height(30.dp))
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .shadow(1.dp)
-                            .clip(RoundedCornerShape(12.dp))
-                    ) {
-                        val modifier = Modifier
-                            .weight(1.0f)
-                            .padding(vertical = 22.dp)
-                        val fontStyle = TextStyle(
-                            fontWeight = FontWeight.Medium,
-                            fontFamily = suit,
-                            fontSize = 16.sp,
-                        )
-
-                        Text(
-                            text = "취소",
-                            modifier.clickable { onDismiss() },
-                            style = fontStyle.copy(color = Gray_300),
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            text = "탈퇴하기",
-                            modifier.clickable { onWithdrawal() },
-                            style = fontStyle.copy(color = Red_300),
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-            }
-        }
-    }
-
     val isShowWithdrawalDialog = remember { mutableStateOf(false) }
 
-    val withdrawal : () -> Unit = {
+    val withdrawal: () -> Unit = {
         val memberService = RetrofitBuilder.getService(MemberService::class.java)
 
         CoroutineScope(Dispatchers.IO).launch {
             val res = memberService.delete(MainActivity.user.memberId)
-            if(res.isSuccessful) {
+            if (res.isSuccessful) {
                 withContext(Dispatchers.Main) {
                     navController.navigate(Page.MAIN.name) {
                         popUpTo(navController.graph.startDestinationId) {
@@ -229,15 +161,95 @@ fun MyPage(navController: NavHostController) {
         }
     }
 
-    if(isShowWithdrawalDialog.value) {
+    if (isShowWithdrawalDialog.value) {
         WithdrawalDialog({ isShowWithdrawalDialog.value = false }, onWithdrawal = withdrawal)
     }
 }
 
-@Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    device = "spec:width=3120px,height=1440px,dpi=560,orientation=portrait"
+)
 @Composable
 fun MyPagePreview() {
     INUTodoTheme {
         MyPage(navController = rememberNavController())
+    }
+}
+
+@Preview
+@Composable
+fun WithdrawalDialog(
+    onDismiss: () -> Unit = {},
+    onWithdrawal: () -> Unit = {}
+) {
+    Dialog(
+        onDismissRequest = onDismiss,
+    ) {
+        Card(
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(45.dp))
+                Text(
+                    text = "김사랑님,\n정말 계정을 삭제하실건가요?",
+                    fontFamily = suit,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(15.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.boom),
+                    modifier = Modifier
+                        .width(126.dp)
+                        .height(126.dp),
+                    contentDescription = null,
+                )
+                Spacer(modifier = Modifier.height(30.dp))
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .shadow(1.dp)
+                ) {
+                    val modifier = Modifier
+                        .weight(1.0f)
+                        .height(62.dp)
+
+                    val fontStyle = TextStyle(
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = suit,
+                        fontSize = 16.sp,
+                    )
+
+                    Box(modifier.clickable { onDismiss() }, contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "취소",
+                            style = fontStyle.copy(color = Gray_300),
+                        )
+                    }
+                    Spacer(
+                        modifier = Modifier
+                            .width(1.5.dp)
+                            .height(38.dp)
+                            .background(Color(0xffF1F1F1))
+                            .align(Alignment.CenterVertically)
+                    )
+                    Box(modifier.clickable { onDismiss() }, contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "탈퇴하기",
+                            style = fontStyle.copy(color = Red_300),
+                        )
+                    }
+                }
+            }
+        }
     }
 }

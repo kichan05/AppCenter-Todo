@@ -102,7 +102,7 @@ fun HomePage(navController: NavController) {
     getData()
 
     Column(Modifier.fillMaxSize()) {
-        HomeHeader()
+        HomeHeader(onGoMyPage = { navController.navigate(Page.MY.name) })
         Column(Modifier.padding(horizontal = 13.dp)) {
             Row(
                 Modifier.fillMaxWidth(),

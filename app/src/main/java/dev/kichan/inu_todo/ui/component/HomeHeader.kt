@@ -1,6 +1,7 @@
 package dev.kichan.inu_todo.ui.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +17,7 @@ import dev.kichan.inu_todo.R
 
 @Preview(showBackground = true)
 @Composable
-fun HomeHeader() {
+fun HomeHeader(onGoMyPage : () -> Unit = {}) {
     Row(
         Modifier
             .fillMaxWidth()
@@ -32,7 +33,7 @@ fun HomeHeader() {
         Image(
             painter = painterResource(id = R.drawable.ic_profile_circle),
             contentDescription = null,
-            Modifier.width(28.dp)
+            modifier = Modifier.width(28.dp).clickable { onGoMyPage() },
         )
     }
 }

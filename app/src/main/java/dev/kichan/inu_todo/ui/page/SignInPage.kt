@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.MainActivity
 import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.member.SignInReq
+import dev.kichan.inu_todo.model.data.member.User
 import dev.kichan.inu_todo.model.service.MemberService
 import dev.kichan.inu_todo.ui.component.Header
 import dev.kichan.inu_todo.ui.component.InputLabel
@@ -48,7 +49,7 @@ fun SignInPage(navController: NavController = rememberNavController()) {
             )
 
             if (result.isSuccessful) {
-                MainActivity.user = result.body()!!
+                MainActivity.user = User(memberId = 6674, userId = "imperdiet")
 
                 withContext(Dispatchers.Main) {
                     navController.navigate(Page.Home.name)
