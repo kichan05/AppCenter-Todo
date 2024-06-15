@@ -65,10 +65,10 @@ fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit) {
     }
 
     @Composable
-    fun Day(day: CalendarDay, isSelect: Boolean) {
+    fun Day(day: CalendarDay, isSelect: Boolean, isTodo : Boolean) {
         Column(
             Modifier
-                .aspectRatio(1.0f)
+                .aspectRatio(0.9f)
                 .clickable { onSelect(day.date) },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -86,7 +86,7 @@ fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit) {
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            if (isSelect) {
+            if (isTodo) {
                 Spacer(
                     modifier = Modifier
                         .width(6.dp)
@@ -163,7 +163,8 @@ fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit) {
                     dayContent = {
                         if (it.position == DayPosition.MonthDate) Day(
                             day = it,
-                            isSelect = selectDay == it.date
+                            isSelect = selectDay == it.date,
+                            isTodo = false
                         )
                     },
                     monthHeader = { daysWeek() }
