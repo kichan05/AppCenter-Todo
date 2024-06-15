@@ -3,6 +3,7 @@ package dev.kichan.inu_todo.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val Blue_400 = Color(0xff4260FF)
+val Blue_200 = Color(0xffEEF3FF)
 val Blue_100 = Color(0xfff2f4ff)
 
 val Red_400 = Color(0xffFF2121)
