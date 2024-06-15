@@ -1,6 +1,7 @@
 package dev.kichan.inu_todo.ui.page
 
 import android.util.Log
+import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -46,6 +48,7 @@ import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.service.CategoryService
 import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.component.CategoryItem
+import dev.kichan.inu_todo.ui.component.DatePicker
 import dev.kichan.inu_todo.ui.component.HomeHeader
 import dev.kichan.inu_todo.ui.component.TodoItem
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
@@ -54,6 +57,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 
 @Composable
 fun HomePage(navController: NavController) {
@@ -62,6 +66,9 @@ fun HomePage(navController: NavController) {
 
     val todoList = rememberSaveable { mutableStateOf<List<Todo>>(listOf()) }
     val categoryList = remember { mutableStateOf<List<Category>>(listOf()) }
+
+    val isOpenDatePicker = remember { mutableStateOf(false) }
+    val selectDate = remember { mutableStateOf(LocalDate.now()) }
 
     val getData = {
 
@@ -83,17 +90,16 @@ fun HomePage(navController: NavController) {
         }
     }
 
-    val checkTodo : (Todo) -> Unit = {
+    val checkTodo: (Todo) -> Unit = {
         CoroutineScope(Dispatchers.IO).launch {
             val res = todoService.editTodo(
                 it.todoId,
                 it.copy(checked = !it.checked)
             )
 
-            if(res.isSuccessful) {
+            if (res.isSuccessful) {
                 getData()
-            }
-            else {
+            } else {
                 Log.d("TodoCheck", "실패")
             }
         }
@@ -109,7 +115,7 @@ fun HomePage(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "5월",
+                    text = "${selectDate.value.monthValue}월",
                     style = TextStyle(
                         color = Color(0xff553910),
                         fontFamily = suit,
@@ -118,13 +124,15 @@ fun HomePage(navController: NavController) {
                     ),
                 )
 
+                Spacer(modifier = Modifier.width(16.dp))
+
                 Image(
                     painter = painterResource(id = R.drawable.ic_calendar_days),
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(start = 7.dp)
                         .shadow(3.dp, RoundedCornerShape(100.dp))
                         .background(Color.White)
+                        .clickable { isOpenDatePicker.value = true }
                         .padding(6.dp)
                 )
 
@@ -162,7 +170,7 @@ fun HomePage(navController: NavController) {
                     .padding(vertical = 20.dp, horizontal = 15.dp)
             ) {
                 Text(
-                    text = "15일",
+                    text = "${selectDate.value.dayOfMonth}일",
                     style = TextStyle(
                         fontSize = 22.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -206,6 +214,13 @@ fun HomePage(navController: NavController) {
                 )
             }
         }
+    }
+
+    if (isOpenDatePicker.value) {
+        DatePicker(
+            selectDay = selectDate.value,
+            onSelect = { selectDate.value = it },
+            onDismiss = { isOpenDatePicker.value = false })
     }
 }
 

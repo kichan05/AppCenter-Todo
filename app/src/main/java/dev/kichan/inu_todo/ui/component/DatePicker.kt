@@ -48,7 +48,7 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 
 @Composable
-fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit) {
+fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit, onDismiss : () -> Unit) {
     val currentMonth = remember { mutableStateOf(YearMonth.now()) }
 
     val state = rememberCalendarState(
@@ -119,7 +119,7 @@ fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit) {
         }
     }
 
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    Dialog(onDismissRequest = { onDismiss() }) {
         Box(
             modifier = Modifier
                 .background(Color.White, RoundedCornerShape(12.dp))
@@ -170,7 +170,7 @@ fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit) {
                     monthHeader = { daysWeek() }
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                InuButton(onClick = { /*TODO*/ }, text = "확인", Modifier.fillMaxWidth())
+                InuButton(onClick = { onDismiss() }, text = "확인", Modifier.fillMaxWidth())
             }
         }
     }
@@ -181,6 +181,6 @@ fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit) {
 fun DatePickerPreview() {
     val selectDate = remember { mutableStateOf(LocalDate.now()) }
     INUTodoTheme {
-        DatePicker(selectDate.value, { selectDate.value = it })
+        DatePicker(selectDate.value, { selectDate.value = it }, {})
     }
 }
