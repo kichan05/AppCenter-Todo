@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,10 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Icon
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -60,7 +57,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun TodoAddPage(navController: NavController) {
     val todoInput = remember { mutableStateOf("") }
-    val categoryInput = remember { mutableStateOf<Category?>(null) }
+    val selectCategory = remember { mutableStateOf<Category?>(null) }
     val categoryList = remember { mutableStateOf<List<Category>>(listOf()) }
 
     val isOpenDatePicker = remember { mutableStateOf(false) }
@@ -110,59 +107,75 @@ fun TodoAddPage(navController: NavController) {
         Modifier.fillMaxSize()
     ) {
         Header(title = "Todo") { navController.popBackStack() }
-        Row(
-            Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            Modifier
+                .padding(13.dp)
         ) {
-            Text(
-                text = "${selectDate.value.monthValue}월 ${selectDate.value.monthValue}일",
-                style = TextStyle(
-                    color = Color(0xff553910),
-                    fontFamily = suit,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 25.sp,
-                ),
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = "${selectDate.value.monthValue}월 ${selectDate.value.dayOfMonth}일",
+                    style = TextStyle(
+                        color = Color(0xff553910),
+                        fontFamily = suit,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 25.sp,
+                    ),
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_calendar_days),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .shadow(3.dp, RoundedCornerShape(100.dp))
+                        .background(Color.White)
+                        .clickable { isOpenDatePicker.value = true }
+                        .padding(6.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(17.dp))
+
+            Input(
+                value = todoInput.value,
+                onChange = { todoInput.value = it },
+                placeholder = "Todo를 입력해주세요",
+                modifier = Modifier.fillMaxWidth(),
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.height(17.dp))
 
-            Image(
-                painter = painterResource(id = R.drawable.ic_calendar_days),
-                contentDescription = null,
-                modifier = Modifier
-                    .shadow(3.dp, RoundedCornerShape(100.dp))
-                    .background(Color.White)
-                    .clickable { isOpenDatePicker.value = true }
-                    .padding(6.dp)
-            )
-        }
+            Column(
+                Modifier.padding(start = 14.dp)
+            ) {
+                Text(text = "카테고리")
+                Text(text = "To do의 카테고리를 선택해주세요!")
+            }
 
-        Input(
-            value = todoInput.value,
-            onChange = { todoInput.value = it },
-            placeholder = "할일을 입력해주세요",
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Column {
-            categoryList.value.map {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = categoryInput.value == it,
-                        onClick = { categoryInput.value = it }
+            LazyRow(
+                contentPadding = PaddingValues(vertical = 37.dp, horizontal = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                items(categoryList.value) {
+                    CategoryItem(
+                        category = it,
+                        modifier = Modifier.clickable { selectCategory.value = it },
+                        isEnable = selectCategory.value == it
                     )
-                    Text(text = it.content)
                 }
             }
+            InuButton(
+                onClick = {
+                    todoCreate(todoInput.value, selectCategory.value!!, selectDate.value!!)
+                },
+                text = "확인",
+            )
         }
-
-        InuButton(
-            onClick = {
-                todoCreate(todoInput.value, categoryInput.value!!, selectDate.value!!)
-            },
-            text = "할일 추가"
-        )
     }
 
     if (isOpenDatePicker.value) {
