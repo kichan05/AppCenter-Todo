@@ -63,7 +63,7 @@ fun TodoAddPage(navController: NavController) {
     val categoryList = remember {
         mutableStateOf<List<Category>>(
             listOf(
-                Category(categoryId = 6799, content = "postulant", color = "ff0000")
+//                Category(categoryId = 6799, content = "postulant", color = "ff0000")
             )
         )
     }

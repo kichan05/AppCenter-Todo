@@ -5,13 +5,13 @@
       <entry key="CategoryItemPreview">
         <State />
       </entry>
-      <entry key="CategoryPagePreview">
-        <State />
-      </entry>
       <entry key="DatePickerPreview">
         <State />
       </entry>
       <entry key="MyPagePreview">
+        <State />
+      </entry>
+      <entry key="TodoItemPreview">
         <State />
       </entry>
       <entry key="WithdrawalDialog">
