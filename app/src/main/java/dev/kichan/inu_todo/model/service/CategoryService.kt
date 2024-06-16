@@ -7,27 +7,27 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface CategoryService {
-    @GET("/category/categories/{memberId}")
+    @GET("/category/categories")
     suspend fun getUserCategory(
-        @Path("memberId")
-        memberId: Int
+        @Header("Authorization") authorization : String,
     ) : Response<List<Category>>
 
-    @POST("/category/{memberId}")
+    @POST("/category")
     suspend fun createCategory(
-        @Path("memberId")
-        memberId: Int,
+        @Header("Authorization") authorization : String,
         @Body
         body : CreateCategoryReq
     ) : Response<Category>
 
     @PUT("/category/{categoryId}")
     suspend fun editCategory(
+        @Header("Authorization") authorization : String,
         @Path("categoryId")
         categoryId : Int,
         @Body
@@ -36,6 +36,7 @@ interface CategoryService {
 
     @DELETE("/category/{categoryId}")
     suspend fun edideleteCategory(
+        @Header("Authorization") authorization : String,
         @Path("categoryId")
         categoryId : Int,
     ) : Response<ResponseMessage>

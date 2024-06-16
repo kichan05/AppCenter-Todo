@@ -64,7 +64,7 @@ fun CategoryPage(navController: NavHostController) {
 
         CoroutineScope(Dispatchers.IO).launch {
             val res = categoryService.createCategory(
-                memberId = MainActivity.user.memberId,
+                authorization = MainActivity.token,
                 body = CreateCategoryReq(
                     content = name,
                     color = color
@@ -115,15 +115,15 @@ fun CategoryPage(navController: NavHostController) {
                         Spacer(modifier = Modifier.width(12.dp))
                         Box {
                             if (nameInput.value.isEmpty()) {
-                                Text(
-                                    text = "추가할 카테고리를 입력해주세요!",
-                                    style = TextStyle(
-                                        color = Color(0xffd0d0d0),
-                                        fontFamily = suit,
-                                        fontWeight = FontWeight.Medium,
-                                        fontSize = 16.sp
-                                    )
-                                )
+//                                Text(
+//                                    text = "추가할 카테고리를 입력해주세요!",
+//                                    style = TextStyle(
+//                                        color = Color(0xffd0d0d0),
+//                                        fontFamily = suit,
+//                                        fontWeight = FontWeight.Medium,
+//                                        fontSize = 16.sp
+//                                    )
+//                                )
                             }
                             innerTextField()
                         }
@@ -138,14 +138,14 @@ fun CategoryPage(navController: NavHostController) {
                         .padding(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(
-                        text = "Color",
-                        style = TextStyle(
-                            fontFamily = suit,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 16.sp
-                        )
-                    )
+//                    Text(
+//                        text = "Color",
+//                        style = TextStyle(
+//                            fontFamily = suit,
+//                            fontWeight = FontWeight.SemiBold,
+//                            fontSize = 16.sp
+//                        )
+//                    )
                     Row(
                         Modifier
                             .padding(vertical = 27.dp, horizontal = 22.dp)

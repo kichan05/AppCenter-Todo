@@ -49,7 +49,7 @@ fun SignInPage(navController: NavController = rememberNavController()) {
             )
 
             if (result.isSuccessful) {
-                MainActivity.user = User(memberId = 6674, userId = "imperdiet")
+                MainActivity.token = "Bearer " + result.body()!!.token
 
                 withContext(Dispatchers.Main) {
                     navController.navigate(Page.Home.name)

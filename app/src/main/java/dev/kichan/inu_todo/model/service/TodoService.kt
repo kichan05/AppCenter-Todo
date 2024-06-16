@@ -10,34 +10,33 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface TodoService {
-    @POST("/todo/{member_id}")
+    @POST("/todo")
     suspend fun todoCreate(
-        @Path("member_id")
-        memberId: Int,
+        @Header("Authorization") authorization : String,
         @Body body : TodoCreateReq
     ) : Response<Todo>
 
-    @GET("/todo/{member_id}")
+    @GET("/todo/todos")
     suspend fun getTodo(
-        @Path("member_id")
-        memberId: Int,
+        @Header("Authorization") authorization : String,
     ) : Response<List<Todo>>
 
     @PUT("/todo/{todoId}")
     suspend fun editTodo(
-        @Path("todoId")
-        todoId : Int,
-        @Body
-        body : Todo
+        @Header("Authorization") authorization : String,
+        @Path("todoId") todoId : Int,
+        @Body body : Todo
     ) : Response<Todo>
 
     @DELETE("/todo/{todoId}")
     suspend fun deleteTodo(
+        @Header("Authorization") authorization : String,
         @Path("todoId")
         todoId : Int,
     ) : Response<ResponseMessage>

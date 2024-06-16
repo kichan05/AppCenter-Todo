@@ -9,6 +9,8 @@ import dev.kichan.inu_todo.model.data.member.User
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -20,14 +22,14 @@ interface MemberService {
     @POST("/member/sign-in")
     suspend fun signIn(@Body body: SignInReq) : Response<SignInRes>
 
-    @DELETE("/member/{memberId}")
+    @DELETE("/member")
     suspend fun delete(
-        @Path("memberId")
-        memberId : Int
+        @Header("Authorization") authorization : String,
     ) : Response<ResponseMessage>
 
-    @PUT("/member/{memberId}")
+    @PUT("/member")
     suspend fun editPassword(
+        @Header("Authorization") authorization : String,
         @Body
         body : PasswordEditReq
     ) : Response<User>

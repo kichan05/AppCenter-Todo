@@ -51,11 +51,12 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
             )
 
             if (result.isSuccessful) {
-                MainActivity.user = result.body()!!
+//                MainActivity.user = result.body()!!
                 withContext(Dispatchers.Main) {
-                    navController.navigate(Page.Home.name)
-                    navController.clearBackStack(Page.SIGN_UP.name)
-                    navController.clearBackStack(Page.MAIN.name)
+                    navController.popBackStack()
+//                    navController.navigate(Page.Home.name)
+//                    navController.clearBackStack(Page.SIGN_UP.name)
+//                    navController.clearBackStack(Page.MAIN.name)
                 }
             } else {
                 MainActivity.showToast(context, "회원가입 실패")

@@ -1,5 +1,6 @@
 package dev.kichan.inu_todo.ui.page
 
+import androidx.compose.material3.Text
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -63,7 +64,7 @@ fun MyPage(navController: NavHostController) {
         val memberService = RetrofitBuilder.getService(MemberService::class.java)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val res = memberService.delete(MainActivity.user.memberId)
+            val res = memberService.delete(MainActivity.token)
             if (res.isSuccessful) {
                 withContext(Dispatchers.Main) {
                     navController.navigate(Page.MAIN.name) {

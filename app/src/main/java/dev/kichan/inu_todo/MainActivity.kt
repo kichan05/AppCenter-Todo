@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
     }
 
     companion object {
-        lateinit var user: User
+        lateinit var token: String
         fun showToast(context : Context, message : String) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }

@@ -11,7 +11,7 @@ data class Todo(
     val checked: Boolean,
     val content: String,
     @SerializedName("setDate") val _setDate: String,
-    @SerializedName("writeDate") val _writeDate: String,
+//    @SerializedName("writeDate") val _writeDate: String,
 ) {
     val setDate : LocalDate
         get() {
@@ -21,11 +21,11 @@ data class Todo(
             return localDate
         }
 
-    val writeDate : LocalDate
-        get() {
-            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val localDate = LocalDate.parse(this._writeDate, dateFormatter)
-
-            return localDate
-        }
+//    val writeDate : LocalDate
+//        get() {
+//            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//            val localDate = LocalDate.parse(this._writeDate, dateFormatter)
+//
+//            return localDate
+//        }
 }

@@ -1,5 +1,6 @@
 package dev.kichan.inu_todo.ui.page
 
+import androidx.compose.material3.Text
 import android.util.Log
 import android.widget.Space
 import androidx.compose.foundation.Image
@@ -23,7 +24,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.ui.tooling.preview.Preview
+import dev.kichan.inu_todo.MainActivity
+import dev.kichan.inu_todo.model.RetrofitBuilder
+import dev.kichan.inu_todo.model.data.todo.Todo
+import dev.kichan.inu_todo.model.service.CategoryService
+import dev.kichan.inu_todo.model.service.TodoService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,29 +45,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import dev.kichan.inu_todo.MainActivity
 import dev.kichan.inu_todo.R
-import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.data.category.Category
-import dev.kichan.inu_todo.model.data.todo.Todo
-import dev.kichan.inu_todo.model.service.CategoryService
-import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.component.CategoryItem
 import dev.kichan.inu_todo.ui.component.DatePicker
 import dev.kichan.inu_todo.ui.component.HomeHeader
 import dev.kichan.inu_todo.ui.component.TodoItem
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 import dev.kichan.inu_todo.ui.theme.suit
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
+
 
 @Composable
 fun HomePage(navController: NavController) {
@@ -73,8 +74,8 @@ fun HomePage(navController: NavController) {
     val getData = {
 
         CoroutineScope(Dispatchers.IO).launch {
-            val todoRes = todoService.getTodo(MainActivity.user.memberId)
-            val categoryRes = categoryService.getUserCategory(MainActivity.user.memberId)
+            val todoRes = todoService.getTodo(MainActivity.token)
+            val categoryRes = categoryService.getUserCategory(MainActivity.token)
 
             if (todoRes.isSuccessful) {
                 withContext(Dispatchers.Main) {
@@ -91,10 +92,12 @@ fun HomePage(navController: NavController) {
     }
 
     val checkTodo: (Todo) -> Unit = {
+        Log.d("CheckTodo", it.copy().toString())
         CoroutineScope(Dispatchers.IO).launch {
             val res = todoService.editTodo(
-                it.todoId,
-                it.copy(checked = !it.checked)
+                authorization = MainActivity.token,
+                todoId = it.todoId,
+                body = it.copy(checked = !it.checked)
             )
 
             if (res.isSuccessful) {
@@ -124,7 +127,6 @@ fun HomePage(navController: NavController) {
                     ),
                 )
 
-                Spacer(modifier = Modifier.width(16.dp))
 
                 Image(
                     painter = painterResource(id = R.drawable.ic_calendar_days),
