@@ -6,5 +6,4 @@ data class TodoCreateReq(
     val category: Category,
     val content: String,
     val setDate: String,
-    val writeDate: String
 )

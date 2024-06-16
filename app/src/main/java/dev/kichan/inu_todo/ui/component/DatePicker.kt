@@ -39,6 +39,7 @@ import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
+import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.ui.theme.Blue_200
 import dev.kichan.inu_todo.ui.theme.Blue_400
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
@@ -48,7 +49,13 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 
 @Composable
-fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit, onDismiss : () -> Unit) {
+fun DatePicker(
+    selectDay: LocalDate,
+    todoList: List<Todo>,
+    onSelect: (LocalDate) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val todoDate = todoList.map { it.setDate }.distinct()
     val currentMonth = remember { mutableStateOf(YearMonth.now()) }
 
     val state = rememberCalendarState(
@@ -65,7 +72,7 @@ fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit, onDismiss : 
     }
 
     @Composable
-    fun Day(day: CalendarDay, isSelect: Boolean, isTodo : Boolean) {
+    fun Day(day: CalendarDay, isSelect: Boolean, isTodo: Boolean) {
         Column(
             Modifier
                 .aspectRatio(0.9f)
@@ -161,11 +168,12 @@ fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit, onDismiss : 
                 HorizontalCalendar(
                     state = state,
                     dayContent = {
-                        if (it.position == DayPosition.MonthDate) Day(
-                            day = it,
-                            isSelect = selectDay == it.date,
-                            isTodo = false
-                        )
+                        if (it.position == DayPosition.MonthDate)
+                            Day(
+                                day = it,
+                                isSelect = selectDay == it.date,
+                                isTodo = todoDate.any { todoDate -> todoDate == it.date }
+                            )
                     },
                     monthHeader = { daysWeek() }
                 )
@@ -181,6 +189,6 @@ fun DatePicker(selectDay: LocalDate, onSelect: (LocalDate) -> Unit, onDismiss : 
 fun DatePickerPreview() {
     val selectDate = remember { mutableStateOf(LocalDate.now()) }
     INUTodoTheme {
-        DatePicker(selectDate.value, { selectDate.value = it }, {})
+        DatePicker(selectDate.value, listOf(), { selectDate.value = it }, {})
     }
 }

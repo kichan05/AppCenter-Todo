@@ -44,6 +44,7 @@ import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.service.CategoryService
 import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.component.CategoryItem
+import dev.kichan.inu_todo.ui.component.DatePicker
 import dev.kichan.inu_todo.ui.component.Header
 import dev.kichan.inu_todo.ui.component.Input
 import dev.kichan.inu_todo.ui.component.InuButton
@@ -54,17 +55,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun TodoAddPage(navController: NavController) {
     val todoInput = remember { mutableStateOf("") }
     val categoryInput = remember { mutableStateOf<Category?>(null) }
-    val categoryList = remember { mutableStateOf<List<Category>>(listOf(
-        Category(categoryId = 3959, content = "per", color = "ff0000"),
-        Category(categoryId = 3951, content = "perasd", color = "00ff00"),
-        Category(categoryId = 3950, content = "p1212", color = "0000ff"),
-    )) }
-//    val categoryList = remember { mutableStateOf<List<Category>>(listOf()) }
+    val categoryList = remember { mutableStateOf<List<Category>>(listOf()) }
 
     val isOpenDatePicker = remember { mutableStateOf(false) }
     val selectDate = remember { mutableStateOf(LocalDate.now()) }
@@ -82,8 +79,10 @@ fun TodoAddPage(navController: NavController) {
         }
     }
 
-    val todoCreate: (String, Category) -> Unit = { todoName, category ->
+    val todoCreate: (String, Category, LocalDate) -> Unit = { todoName, category, selectDate ->
         val service = RetrofitBuilder.getService(TodoService::class.java)
+
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
         CoroutineScope(Dispatchers.IO).launch {
             val result = service.todoCreate(
@@ -91,8 +90,7 @@ fun TodoAddPage(navController: NavController) {
                 body = TodoCreateReq(
                     category = category,
                     content = todoName,
-                    setDate = "2024-05-22",
-                    writeDate = "2024-05-22"
+                    setDate = selectDate.format(formatter),
                 ),
             )
 
@@ -161,9 +159,18 @@ fun TodoAddPage(navController: NavController) {
 
         InuButton(
             onClick = {
-                todoCreate(todoInput.value, categoryInput.value!!)
+                todoCreate(todoInput.value, categoryInput.value!!, selectDate.value!!)
             },
             text = "할일 추가"
+        )
+    }
+
+    if (isOpenDatePicker.value) {
+        DatePicker(
+            selectDay = selectDate.value,
+            todoList = listOf(),
+            onSelect = { selectDate.value = it },
+            onDismiss = { isOpenDatePicker.value = false }
         )
     }
 }

@@ -184,7 +184,7 @@ fun HomePage(navController: NavController) {
                     verticalArrangement = Arrangement.spacedBy(11.dp),
                     contentPadding = PaddingValues(vertical = 12.dp)
                 ) {
-                    items(todoList.value) {
+                    items(todoList.value.filter { it.setDate == selectDate.value }) {
                         TodoItem(todo = it, onClick = checkTodo)
                     }
                 }
@@ -221,6 +221,7 @@ fun HomePage(navController: NavController) {
     if (isOpenDatePicker.value) {
         DatePicker(
             selectDay = selectDate.value,
+            listOf(),
             onSelect = { selectDate.value = it },
             onDismiss = { isOpenDatePicker.value = false })
     }
