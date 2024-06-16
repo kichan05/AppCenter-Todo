@@ -3,6 +3,7 @@ package dev.kichan.inu_todo.ui.page
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,6 +46,7 @@ import dev.kichan.inu_todo.ui.component.DatePicker
 import dev.kichan.inu_todo.ui.component.Header
 import dev.kichan.inu_todo.ui.component.Input
 import dev.kichan.inu_todo.ui.component.InuButton
+import dev.kichan.inu_todo.ui.theme.Gray_200
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 import dev.kichan.inu_todo.ui.theme.suit
 import kotlinx.coroutines.CoroutineScope
@@ -58,7 +60,13 @@ import java.time.format.DateTimeFormatter
 fun TodoAddPage(navController: NavController) {
     val todoInput = remember { mutableStateOf("") }
     val selectCategory = remember { mutableStateOf<Category?>(null) }
-    val categoryList = remember { mutableStateOf<List<Category>>(listOf()) }
+    val categoryList = remember {
+        mutableStateOf<List<Category>>(
+            listOf(
+                Category(categoryId = 6799, content = "postulant", color = "ff0000")
+            )
+        )
+    }
 
     val isOpenDatePicker = remember { mutableStateOf(false) }
     val selectDate = remember { mutableStateOf(LocalDate.now()) }
@@ -109,71 +117,103 @@ fun TodoAddPage(navController: NavController) {
         Header(title = "Todo") { navController.popBackStack() }
         Column(
             Modifier
-                .padding(13.dp)
+                .fillMaxSize()
+                .padding(13.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = "${selectDate.value.monthValue}월 ${selectDate.value.dayOfMonth}일",
-                    style = TextStyle(
-                        color = Color(0xff553910),
-                        fontFamily = suit,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 25.sp,
-                    ),
-                )
+            Column {
 
-                Spacer(modifier = Modifier.width(16.dp))
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(
+                        text = "${selectDate.value.monthValue}월 ${selectDate.value.dayOfMonth}일",
+                        style = TextStyle(
+                            color = Color(0xff553910),
+                            fontFamily = suit,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 25.sp,
+                        ),
+                    )
 
-                Image(
-                    painter = painterResource(id = R.drawable.ic_calendar_days),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .shadow(3.dp, RoundedCornerShape(100.dp))
-                        .background(Color.White)
-                        .clickable { isOpenDatePicker.value = true }
-                        .padding(6.dp)
-                )
-            }
+                    Spacer(modifier = Modifier.width(16.dp))
 
-            Spacer(modifier = Modifier.height(17.dp))
-
-            Input(
-                value = todoInput.value,
-                onChange = { todoInput.value = it },
-                placeholder = "Todo를 입력해주세요",
-                modifier = Modifier.fillMaxWidth(),
-            )
-
-            Spacer(modifier = Modifier.height(17.dp))
-
-            Column(
-                Modifier.padding(start = 14.dp)
-            ) {
-                Text(text = "카테고리")
-                Text(text = "To do의 카테고리를 선택해주세요!")
-            }
-
-            LazyRow(
-                contentPadding = PaddingValues(vertical = 37.dp, horizontal = 20.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-            ) {
-                items(categoryList.value) {
-                    CategoryItem(
-                        category = it,
-                        modifier = Modifier.clickable { selectCategory.value = it },
-                        isEnable = selectCategory.value == it
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_calendar_days),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .shadow(3.dp, RoundedCornerShape(100.dp))
+                            .background(Color.White)
+                            .clickable { isOpenDatePicker.value = true }
+                            .padding(6.dp)
                     )
                 }
+
+                Spacer(modifier = Modifier.height(17.dp))
+
+                Input(
+                    value = todoInput.value,
+                    onChange = { todoInput.value = it },
+                    placeholder = "Todo를 입력해주세요",
+                    modifier = Modifier.fillMaxWidth(),
+                )
+
+                Spacer(modifier = Modifier.height(17.dp))
+
+                Column(
+                    Modifier.padding(start = 14.dp)
+                ) {
+                    Text(
+                        text = "카테고리",
+                        style = TextStyle(
+                            color = Color(0xff232323),
+                            fontFamily = suit,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 18.sp,
+                        )
+                    )
+                    Text(
+                        text = "To do의 카테고리를 선택해주세요!",
+                        style = TextStyle(
+                            color = Color(0xff8c8c8c),
+                            fontFamily = suit,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 14.sp,
+                        )
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(22.dp))
+
+                val shape = RoundedCornerShape(12.dp)
+
+                LazyRow(
+                    contentPadding = PaddingValues(vertical = 37.dp, horizontal = 20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White, shape)
+                        .border(1.dp, Gray_200, shape)
+                        .shadow(1.dp, shape)
+                ) {
+                    items(categoryList.value) {
+                        CategoryItem(
+                            category = it,
+                            modifier = Modifier.clickable { selectCategory.value = it },
+                            isEnable = selectCategory.value == it
+                        )
+                    }
+                }
             }
+
             InuButton(
                 onClick = {
                     todoCreate(todoInput.value, selectCategory.value!!, selectDate.value!!)
                 },
                 text = "확인",
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
