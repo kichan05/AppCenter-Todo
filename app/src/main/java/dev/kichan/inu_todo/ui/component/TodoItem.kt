@@ -41,7 +41,13 @@ import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 import kotlin.math.roundToInt
 
 @Composable
-fun TodoItem(todo: Todo, modifier: Modifier = Modifier, onClick: (Todo) -> Unit) {
+fun TodoItem(
+    todo: Todo,
+    modifier: Modifier = Modifier,
+    onClick: (Todo) -> Unit,
+    onEdit: (Todo) -> Unit,
+    onDelete: (Todo) -> Unit
+) {
     val swipeOffsetX = remember { mutableStateOf(0.0f) }
 
     @Composable
@@ -109,7 +115,7 @@ fun TodoItem(todo: Todo, modifier: Modifier = Modifier, onClick: (Todo) -> Unit)
                     .zIndex(0f)
                     .align(Alignment.CenterEnd)
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { onEdit(todo) }) {
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = null,
@@ -119,7 +125,7 @@ fun TodoItem(todo: Todo, modifier: Modifier = Modifier, onClick: (Todo) -> Unit)
                     )
                 }
 
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { onDelete(todo) }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null,
@@ -150,9 +156,10 @@ fun TodoItemPreview() {
                 checked = true,
                 content = "habitant",
                 _setDate = "usu",
-//                _writeDate = "cetero"
             ),
-            onClick = {}
+            onClick = {},
+            onEdit = {},
+            onDelete = {}
         )
     }
 }

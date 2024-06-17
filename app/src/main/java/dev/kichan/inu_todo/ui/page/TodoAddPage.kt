@@ -93,7 +93,7 @@ fun TodoAddPage(navController: NavController) {
             val result = service.todoCreate(
                 authorization = MainActivity.token,
                 body = TodoCreateReq(
-                    category = category,
+                    categoryId = category.categoryId,
                     content = todoName,
                     setDate = selectDate.format(formatter),
                 ),
@@ -122,7 +122,6 @@ fun TodoAddPage(navController: NavController) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-
                 Row(
                     Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically

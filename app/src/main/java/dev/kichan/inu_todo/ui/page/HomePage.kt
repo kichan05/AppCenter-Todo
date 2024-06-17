@@ -1,8 +1,10 @@
 package dev.kichan.inu_todo.ui.page
 
+import android.content.Context
 import androidx.compose.material3.Text
 import android.util.Log
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -104,6 +107,20 @@ fun HomePage(navController: NavController) {
                 getData()
             } else {
                 Log.d("TodoCheck", "실패")
+            }
+        }
+    }
+
+    val todoEdit: (Todo) -> Unit = {
+    }
+
+    val todoDelete: (Todo) -> Unit = {
+        val todoService = RetrofitBuilder.getService(TodoService::class.java)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val res = todoService.deleteTodo(MainActivity.token, it.todoId)
+            if(res.isSuccessful) {
+                getData()
             }
         }
     }
@@ -185,7 +202,12 @@ fun HomePage(navController: NavController) {
                     contentPadding = PaddingValues(vertical = 12.dp)
                 ) {
                     items(todoList.value.filter { it.setDate == selectDate.value }) {
-                        TodoItem(todo = it, onClick = checkTodo)
+                        TodoItem(
+                            todo = it,
+                            onClick = checkTodo,
+                            onEdit = todoEdit,
+                            onDelete = todoDelete
+                        )
                     }
                 }
             }
