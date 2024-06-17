@@ -14,7 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import dev.kichan.inu_todo.model.data.member.User
+import com.google.gson.Gson
+import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.ui.page.CategoryPage
 import dev.kichan.inu_todo.ui.page.HomePage
 import dev.kichan.inu_todo.ui.page.MainPage
@@ -23,6 +24,7 @@ import dev.kichan.inu_todo.ui.page.Page
 import dev.kichan.inu_todo.ui.page.SignInPage
 import dev.kichan.inu_todo.ui.page.SignUpPage
 import dev.kichan.inu_todo.ui.page.TodoAddPage
+import dev.kichan.inu_todo.ui.page.TodoEditPage
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
 
 class MainActivity : ComponentActivity() {
@@ -70,6 +72,11 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable(route = Page.TODO_ADD.name) {
                 TodoAddPage(navController = navController)
+            }
+            composable(route = "${Page.TODO_EDIT.name}/{todoJson}") {back ->
+                val todoJson = back.arguments?.getString("todoJson")
+                val todo = Gson().fromJson(todoJson, Todo::class.java)
+                TodoEditPage(navController = navController, todo = todo)
             }
             composable(route = Page.MY.name) {
                 MyPage(navController = navController)

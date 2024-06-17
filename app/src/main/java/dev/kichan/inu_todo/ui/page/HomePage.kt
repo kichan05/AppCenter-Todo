@@ -52,8 +52,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import dev.kichan.inu_todo.R
 import dev.kichan.inu_todo.model.data.category.Category
+import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.ui.component.CategoryItem
 import dev.kichan.inu_todo.ui.component.DatePicker
 import dev.kichan.inu_todo.ui.component.HomeHeader
@@ -75,7 +77,6 @@ fun HomePage(navController: NavController) {
     val selectDate = remember { mutableStateOf(LocalDate.now()) }
 
     val getData = {
-
         CoroutineScope(Dispatchers.IO).launch {
             val todoRes = todoService.getTodo(MainActivity.token)
             val categoryRes = categoryService.getUserCategory(MainActivity.token)
@@ -95,12 +96,17 @@ fun HomePage(navController: NavController) {
     }
 
     val checkTodo: (Todo) -> Unit = {
-        Log.d("CheckTodo", it.copy().toString())
+        val body = TodoCreateReq(
+            categoryId = it.category.categoryId,
+            content = it.content,
+            setDate = it._setDate,
+            checked = !it.checked,
+        )
         CoroutineScope(Dispatchers.IO).launch {
             val res = todoService.editTodo(
                 authorization = MainActivity.token,
                 todoId = it.todoId,
-                body = it.copy(checked = !it.checked)
+                body = body
             )
 
             if (res.isSuccessful) {
@@ -112,6 +118,8 @@ fun HomePage(navController: NavController) {
     }
 
     val todoEdit: (Todo) -> Unit = {
+        val todoJson = Gson().toJson(it)
+        navController.navigate("${Page.TODO_EDIT.name}/${todoJson}")
     }
 
     val todoDelete: (Todo) -> Unit = {
@@ -119,7 +127,7 @@ fun HomePage(navController: NavController) {
 
         CoroutineScope(Dispatchers.IO).launch {
             val res = todoService.deleteTodo(MainActivity.token, it.todoId)
-            if(res.isSuccessful) {
+            if (res.isSuccessful) {
                 getData()
             }
         }

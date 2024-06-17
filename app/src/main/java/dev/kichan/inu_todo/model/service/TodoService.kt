@@ -31,7 +31,7 @@ interface TodoService {
     suspend fun editTodo(
         @Header("Authorization") authorization : String,
         @Path("todoId") todoId : Int,
-        @Body body : Todo
+        @Body body : TodoCreateReq
     ) : Response<Todo>
 
     @DELETE("/todo/{todoId}")
