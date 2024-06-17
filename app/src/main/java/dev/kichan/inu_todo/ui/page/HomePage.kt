@@ -76,6 +76,7 @@ fun HomePage(navController: NavController) {
     val isOpenDatePicker = remember { mutableStateOf(false) }
     val selectDate = remember { mutableStateOf(LocalDate.now()) }
 
+    // 아 MVVM을 쓰는 이유를 알겠다.
     val getData = {
         CoroutineScope(Dispatchers.IO).launch {
             val todoRes = todoService.getTodo(MainActivity.token)
@@ -152,6 +153,7 @@ fun HomePage(navController: NavController) {
                     ),
                 )
 
+                Spacer(modifier = Modifier.width(7.dp))
 
                 Image(
                     painter = painterResource(id = R.drawable.ic_calendar_days),
@@ -163,6 +165,8 @@ fun HomePage(navController: NavController) {
                         .padding(6.dp)
                 )
 
+                Spacer(modifier = Modifier.width(7.dp))
+
                 LazyRow(
                     modifier = Modifier.weight(1f),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -171,19 +175,18 @@ fun HomePage(navController: NavController) {
                     items(categoryList.value) {
                         CategoryItem(category = it)
                     }
-                    item {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(30.dp)
-                                .height(30.dp)
-                                .background(Color(0xfff5f5f5), RoundedCornerShape(100.dp))
-                                .clickable { navController.navigate(Page.Category.name) },
-                            tint = Color(0xffA2A2A2)
-                        )
-                    }
                 }
+
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(30.dp)
+                        .height(30.dp)
+                        .background(Color(0xfff5f5f5), RoundedCornerShape(100.dp))
+                        .clickable { navController.navigate(Page.Category.name) },
+                    tint = Color(0xffA2A2A2)
+                )
             }
 
             val shape = RoundedCornerShape(12.dp)
@@ -246,14 +249,14 @@ fun HomePage(navController: NavController) {
                 )
             }
         }
-    }
 
-    if (isOpenDatePicker.value) {
-        DatePicker(
-            selectDay = selectDate.value,
-            listOf(),
-            onSelect = { selectDate.value = it },
-            onDismiss = { isOpenDatePicker.value = false })
+        if (isOpenDatePicker.value) {
+            DatePicker(
+                selectDay = selectDate.value,
+                listOf(),
+                onSelect = { selectDate.value = it },
+                onDismiss = { isOpenDatePicker.value = false })
+        }
     }
 }
 
