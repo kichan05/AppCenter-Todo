@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -44,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -173,10 +175,21 @@ fun HomePage(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     items(categoryList.value) {
-                        CategoryItem(category = it, modifier = Modifier.clickable {
-                            val categoryJson = Gson().toJson(it)
-                            navController.navigate("${Page.CATEGODY_EDIT.name}/${categoryJson}")
-                        })
+
+                        CategoryItem(
+                            category = it,
+                            modifier = Modifier
+                                .clickable {
+                                    val categoryJson = Gson().toJson(it)
+                                    navController.navigate("${Page.CATEGODY_EDIT.name}/${categoryJson}")
+                                }
+//                                .pointerInput(Unit) {
+//                                    detectTapGestures(
+//                                        onLongPress = {
+//                                        }
+//                                    )
+//                                }
+                        )
                     }
                 }
 
