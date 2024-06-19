@@ -81,7 +81,8 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
                     label = "아이디",
                     placeholder = "아이디를 입력해주세요",
                     modifier = Modifier.fillMaxWidth(),
-                    icon = Icons.Outlined.Person
+                    icon = Icons.Outlined.Person,
+                    isSuccess = id.value.length >= 8
                 )
 
                 InputLabel(
@@ -92,6 +93,7 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
                     modifier = Modifier.fillMaxWidth(),
                     icon = Icons.Outlined.Lock,
                     inputType = InputType.Password,
+                    isSuccess = pass.value.length >= 8
                 )
 
                 InputLabel(
@@ -102,6 +104,7 @@ fun SignUpPage(navController: NavController = rememberNavController()) {
                     modifier = Modifier.fillMaxWidth(),
                     icon = Icons.Outlined.Lock,
                     inputType = InputType.Password,
+                    isSuccess = passConfirm.value.length >= 8
                 )
             }
 

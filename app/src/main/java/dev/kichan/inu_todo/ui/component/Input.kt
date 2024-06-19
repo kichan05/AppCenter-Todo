@@ -1,5 +1,6 @@
 package dev.kichan.inu_todo.ui.component
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -56,32 +57,32 @@ fun Input(
     inputType: InputType = InputType.Text,
 ) {
     val shape = RoundedCornerShape(APP_ROUND)
-    val contentColor = if (isSuccess) Blue_400 else if (isError) Red_400 else Gray_600
-    val backgroundColor = if (isSuccess) Blue_100 else if (isError) Red_100 else Gray_200
+    val contentColor = animateColorAsState(targetValue = if (isSuccess) Blue_400 else if (isError) Red_400 else Gray_600)
+    val backgroundColor = animateColorAsState(targetValue = if (isSuccess) Blue_100 else if (isError) Red_100 else Gray_200)
     val isContentShow = remember { mutableStateOf(false) }
 
     BasicTextField(
         value = value,
         onValueChange = onChange,
         modifier = modifier,
-        textStyle = textStyle.copy(color = contentColor),
+        textStyle = textStyle.copy(color = contentColor.value),
         singleLine = singleLine,
         maxLines = maxLines,
         minLines = minLines,
     ) { innerTextField ->
         Row(
             modifier
-                .background(color = backgroundColor, shape = shape)
+                .background(color = backgroundColor.value, shape = shape)
                 .let {
                     if (isSuccess || isError) it
-                        .border(0.5.dp, contentColor, shape)
+                        .border(0.5.dp, contentColor.value, shape)
                     else it
                 }
                 .padding(horizontal = 10.dp, vertical = 15.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (icon != null) {
-                Icon(imageVector = icon, contentDescription = null, tint = contentColor)
+                Icon(imageVector = icon, contentDescription = null, tint = contentColor.value)
                 Spacer(modifier = Modifier.width(8.dp))
             }
 
@@ -92,7 +93,7 @@ fun Input(
                     Text(
                         text = placeholder,
                         style = textStyle.copy(
-                            color = contentColor
+                            color = contentColor.value
                         )
                     )
                 }
@@ -101,7 +102,7 @@ fun Input(
                     innerTextField()
                 }
                 else {
-                    Text(text = "*".repeat(value.length), color = contentColor)
+                    Text(text = "*".repeat(value.length), color = contentColor.value)
                 }
 
                 if (inputType == InputType.Password) {
@@ -115,7 +116,7 @@ fun Input(
                             .clickable {
                                 isContentShow.value = !isContentShow.value
                             },
-                        colorFilter = ColorFilter.tint(contentColor)
+                        colorFilter = ColorFilter.tint(contentColor.value)
                     )
                 }
             }

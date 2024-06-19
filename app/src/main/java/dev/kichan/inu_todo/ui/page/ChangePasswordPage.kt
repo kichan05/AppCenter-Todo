@@ -78,6 +78,7 @@ fun ChangePasswordPage(navController: NavHostController) {
                     placeholder = "비밀번호를 입력해주세요.",
                     inputType = InputType.Password,
                     icon = Icons.Outlined.Lock,
+                    isSuccess = password.value.length > 8,
                 )
                 InputLabel(
                     value = newPassword.value,
@@ -86,6 +87,7 @@ fun ChangePasswordPage(navController: NavHostController) {
                     placeholder = "비밀번호를 입력해주세요.",
                     inputType = InputType.Password,
                     icon = Icons.Outlined.Lock,
+                    isSuccess = newPassword.value.length > 8 && newPassword.value == newPasswordConfirm.value,
                 )
                 InputLabel(
                     value = newPasswordConfirm.value,
@@ -94,6 +96,7 @@ fun ChangePasswordPage(navController: NavHostController) {
                     placeholder = "비밀번호를 입력해주세요.",
                     inputType = InputType.Password,
                     icon = Icons.Outlined.Lock,
+                    isSuccess = newPasswordConfirm.value.length > 8 && newPasswordConfirm.value == newPassword.value,
                 )
             }
 

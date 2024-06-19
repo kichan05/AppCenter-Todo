@@ -89,6 +89,7 @@ fun SignInPage(navController: NavController = rememberNavController()) {
                     modifier = Modifier.fillMaxWidth(),
                     icon = Icons.Outlined.Person,
                     singleLine = true,
+                    isSuccess = id.value.length >= 8
                 )
 
                 InputLabel(
@@ -99,6 +100,7 @@ fun SignInPage(navController: NavController = rememberNavController()) {
                     modifier = Modifier.fillMaxWidth(),
                     icon = Icons.Outlined.Lock,
                     singleLine = true,
+                    isSuccess = password.value.length >= 8
                 )
             }
 
