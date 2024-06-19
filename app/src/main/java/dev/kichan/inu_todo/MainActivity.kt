@@ -16,7 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import dev.kichan.inu_todo.model.data.todo.Todo
-import dev.kichan.inu_todo.ui.page.CategoryPage
+import dev.kichan.inu_todo.ui.page.CategoryAddPage
 import dev.kichan.inu_todo.ui.page.ChangePasswordPage
 import dev.kichan.inu_todo.ui.page.HomePage
 import dev.kichan.inu_todo.ui.page.MainPage
@@ -69,7 +69,7 @@ fun MyApp(modifier: Modifier = Modifier) {
                 HomePage(navController)
             }
             composable(route = Page.Category.name) {
-                CategoryPage(navController)
+                CategoryAddPage(navController)
             }
             composable(route = Page.TODO_ADD.name) {
                 TodoAddPage(navController = navController)
