@@ -35,7 +35,7 @@ interface CategoryService {
     ) : Response<Category>
 
     @DELETE("/category/{categoryId}")
-    suspend fun edideleteCategory(
+    suspend fun deleteCategory(
         @Header("Authorization") authorization : String,
         @Path("categoryId")
         categoryId : Int,

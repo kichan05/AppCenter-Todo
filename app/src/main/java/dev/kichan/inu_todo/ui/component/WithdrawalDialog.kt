@@ -57,7 +57,7 @@ fun WithdrawalDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(45.dp))
-                Column(content = content)
+                Column(horizontalAlignment = Alignment.CenterHorizontally, content = content)
                 Spacer(modifier = Modifier.height(15.dp))
                 Image(
                     painter = painterResource(id = image),

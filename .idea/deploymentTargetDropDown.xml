@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CategoryEditPagePreview">
+        <State />
+      </entry>
       <entry key="ChangePasswordPage">
         <State />
       </entry>
@@ -12,9 +15,6 @@
         <State />
       </entry>
       <entry key="TodoItemPreview">
-        <State />
-      </entry>
-      <entry key="WithdrawalDialog">
         <State />
       </entry>
       <entry key="app">
