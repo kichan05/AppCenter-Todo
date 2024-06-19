@@ -43,6 +43,7 @@ import androidx.navigation.compose.rememberNavController
 import dev.kichan.inu_todo.MainActivity
 import dev.kichan.inu_todo.R
 import dev.kichan.inu_todo.model.RetrofitBuilder
+import dev.kichan.inu_todo.model.data.member.PasswordEditReq
 import dev.kichan.inu_todo.model.service.MemberService
 import dev.kichan.inu_todo.ui.component.Header
 import dev.kichan.inu_todo.ui.theme.Blue_100
@@ -90,7 +91,7 @@ fun MyPage(navController: NavHostController) {
     }
 
     val changePassword: () -> Unit = {
-
+        navController.navigate(Page.CHANGE_PASSWORD.name)
     }
 
     Column(

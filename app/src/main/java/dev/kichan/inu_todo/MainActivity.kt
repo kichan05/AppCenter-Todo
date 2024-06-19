@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.ui.page.CategoryPage
+import dev.kichan.inu_todo.ui.page.ChangePasswordPage
 import dev.kichan.inu_todo.ui.page.HomePage
 import dev.kichan.inu_todo.ui.page.MainPage
 import dev.kichan.inu_todo.ui.page.MyPage
@@ -80,6 +81,9 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable(route = Page.MY.name) {
                 MyPage(navController = navController)
+            }
+            composable(route = Page.CHANGE_PASSWORD.name) {
+                ChangePasswordPage(navController = navController)
             }
         }
     }
