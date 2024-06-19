@@ -1,5 +1,6 @@
 package dev.kichan.inu_todo.ui.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -56,6 +57,7 @@ fun DatePicker(
     onDismiss: () -> Unit
 ) {
     val todoDate = todoList.map { it.setDate }.distinct()
+    Log.d("[TodoDate]", todoDate.toString())
     val currentMonth = remember { mutableStateOf(YearMonth.now()) }
 
     val state = rememberCalendarState(

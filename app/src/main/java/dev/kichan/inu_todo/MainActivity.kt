@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dev.kichan.inu_todo.model.data.category.Category
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.ui.page.CategoryAddPage
@@ -29,6 +30,7 @@ import dev.kichan.inu_todo.ui.page.SignUpPage
 import dev.kichan.inu_todo.ui.page.TodoAddPage
 import dev.kichan.inu_todo.ui.page.TodoEditPage
 import dev.kichan.inu_todo.ui.theme.INUTodoTheme
+import java.time.LocalDate
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

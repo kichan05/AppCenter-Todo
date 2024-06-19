@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +39,7 @@ import dev.kichan.inu_todo.model.data.category.Category
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.model.data.todo.TodoCreateReq
 import dev.kichan.inu_todo.model.service.CategoryService
+import dev.kichan.inu_todo.model.service.TodoService
 import dev.kichan.inu_todo.ui.theme.Gray_200
 import dev.kichan.inu_todo.ui.theme.suit
 import kotlinx.coroutines.CoroutineScope
@@ -51,6 +54,22 @@ fun TodoFrom(todo: Todo?, onFeatch: (TodoCreateReq) -> Unit) {
     val todoInput = remember { mutableStateOf(todo?.content ?: "") }
     val selectCategoryId = remember { mutableStateOf<Int?>(todo?.category?.categoryId) }
     val selectDate = remember { mutableStateOf(LocalDate.now()) }
+
+    val todoList = remember { mutableStateOf(listOf<Todo>()) }
+
+    val getDataTodo = {
+        val todoService = RetrofitBuilder.getService(TodoService::class.java)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val todoRes = todoService.getTodo(MainActivity.token)
+
+            if (todoRes.isSuccessful) {
+                withContext(Dispatchers.Main) {
+                    todoList.value = todoRes.body()!!
+                }
+            }
+        }
+    }
 
     val categoryList = remember {
         mutableStateOf<List<Category>>(
@@ -77,6 +96,7 @@ fun TodoFrom(todo: Todo?, onFeatch: (TodoCreateReq) -> Unit) {
     }
 
     getCategory()
+    getDataTodo()
 
     Column(
         Modifier
@@ -120,6 +140,7 @@ fun TodoFrom(todo: Todo?, onFeatch: (TodoCreateReq) -> Unit) {
                 onChange = { todoInput.value = it },
                 placeholder = "Todo를 입력해주세요",
                 modifier = Modifier.fillMaxWidth(),
+                icon = Icons.Outlined.Edit
             )
 
             Spacer(modifier = Modifier.height(17.dp))
@@ -191,7 +212,7 @@ fun TodoFrom(todo: Todo?, onFeatch: (TodoCreateReq) -> Unit) {
     if (isOpenDatePicker.value) {
         DatePicker(
             selectDay = selectDate.value,
-            todoList = listOf(),
+            todoList = todoList.value,
             onSelect = { selectDate.value = it },
             onDismiss = { isOpenDatePicker.value = false }
         )

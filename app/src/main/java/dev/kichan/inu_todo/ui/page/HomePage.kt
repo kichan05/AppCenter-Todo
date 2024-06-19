@@ -243,7 +243,9 @@ fun HomePage(navController: NavController) {
                 Modifier
                     .padding(top = 27.dp)
                     .fillMaxWidth()
-                    .clickable { navController.navigate(Page.TODO_ADD.name) }
+                    .clickable {
+                        navController.navigate(Page.TODO_ADD.name)
+                    }
                     .background(Color(0xfff5f5f5), RoundedCornerShape(12.dp))
                     .padding(vertical = 21.dp),
 
@@ -269,7 +271,7 @@ fun HomePage(navController: NavController) {
         if (isOpenDatePicker.value) {
             DatePicker(
                 selectDay = selectDate.value,
-                listOf(),
+                todoList = todoList.value,
                 onSelect = { selectDate.value = it },
                 onDismiss = { isOpenDatePicker.value = false })
         }
