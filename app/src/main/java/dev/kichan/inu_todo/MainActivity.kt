@@ -15,8 +15,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
+import dev.kichan.inu_todo.model.data.category.Category
 import dev.kichan.inu_todo.model.data.todo.Todo
 import dev.kichan.inu_todo.ui.page.CategoryAddPage
+import dev.kichan.inu_todo.ui.page.CategoryEditPage
 import dev.kichan.inu_todo.ui.page.ChangePasswordPage
 import dev.kichan.inu_todo.ui.page.HomePage
 import dev.kichan.inu_todo.ui.page.MainPage
@@ -84,6 +86,11 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable(route = Page.CHANGE_PASSWORD.name) {
                 ChangePasswordPage(navController = navController)
+            }
+            composable(route = "${Page.CATEGODY_EDIT.name}/{categoryJson}") {
+                val todoJson = it.arguments?.getString("categoryJson")
+                val category = Gson().fromJson(todoJson, Category::class.java)
+                CategoryEditPage(navController = navController, category)
             }
         }
     }

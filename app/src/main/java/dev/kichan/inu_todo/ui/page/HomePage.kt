@@ -173,7 +173,10 @@ fun HomePage(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     items(categoryList.value) {
-                        CategoryItem(category = it)
+                        CategoryItem(category = it, modifier = Modifier.clickable {
+                            val categoryJson = Gson().toJson(it)
+                            navController.navigate("${Page.CATEGODY_EDIT.name}/${categoryJson}")
+                        })
                     }
                 }
 

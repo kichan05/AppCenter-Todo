@@ -1,32 +1,20 @@
 package dev.kichan.inu_todo.ui.page
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,15 +35,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @Composable
-fun CategoryAddPage(navController: NavHostController) {
-    val addCategory: (CreateCategoryReq) -> Unit = {
-        Log.d("category", it.toString())
+fun CategoryEditPage(navController: NavHostController, category: Category) {
+    val editCategory: (CreateCategoryReq) -> Unit = {
         val categoryService = RetrofitBuilder.getService(CategoryService::class.java)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val res = categoryService.createCategory(
+            val res = categoryService.editCategory(
                 authorization = MainActivity.token,
-                body = it
+                body = it,
+                categoryId = category.categoryId,
             )
 
             withContext(Dispatchers.Main) {
@@ -67,7 +55,19 @@ fun CategoryAddPage(navController: NavHostController) {
             }
         }
     }
-    val category = remember { mutableStateOf(CreateCategoryReq(content = "", color = "")) }
+
+    val onDelete : () -> Unit = {
+
+    }
+
+    val newCategory = remember {
+        mutableStateOf(
+            CreateCategoryReq(
+                content = category.content,
+                color = category.color
+            )
+        )
+    }
 
     Column(Modifier.fillMaxSize()) {
         Header(title = "카테고리") { navController.popBackStack() }
@@ -77,22 +77,41 @@ fun CategoryAddPage(navController: NavHostController) {
                 .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            CategoryFrom(category = category.value, onChange = {category.value = it})
+            CategoryFrom(category = newCategory.value, onChange = { newCategory.value = it })
 
-            InuButton(
-                onClick = {
-                    addCategory(category.value)
-                },
-                text = "저장하기", modifier = Modifier.fillMaxWidth()
-            )
+            Row(
+                Modifier.fillMaxWidth(),
+            ) {
+                InuButton(
+                    onClick = { /*TODO*/ },
+                    text = "삭제",
+                    Modifier.weight(1f),
+                    textColor = Color(0xffa2a2a2),
+                    backgroundColor = Color.White,
+                    border = BorderStroke(1.dp, Color(0xffa2a2a2))
+                )
+                Spacer(modifier = Modifier.width(9.dp))
+                InuButton(
+                    onClick = {
+                        editCategory(newCategory.value)
+                    },
+                    text = "저장", modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun CategoryPagePreview() {
+fun CategoryEditPagePreview() {
     INUTodoTheme {
-        CategoryAddPage(navController = rememberNavController())
+        CategoryEditPage(
+            rememberNavController(), Category(
+                categoryId = 3037,
+                content = "tation",
+                color = "turpis"
+            )
+        )
     }
 }
