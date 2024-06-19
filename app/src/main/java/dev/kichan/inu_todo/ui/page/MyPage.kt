@@ -3,6 +3,7 @@ package dev.kichan.inu_todo.ui.page
 import androidx.compose.material3.Text
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -45,6 +46,7 @@ import dev.kichan.inu_todo.model.RetrofitBuilder
 import dev.kichan.inu_todo.model.service.MemberService
 import dev.kichan.inu_todo.ui.component.Header
 import dev.kichan.inu_todo.ui.theme.Blue_100
+import dev.kichan.inu_todo.ui.theme.Blue_200
 import dev.kichan.inu_todo.ui.theme.Blue_400
 import dev.kichan.inu_todo.ui.theme.Gray_200
 import dev.kichan.inu_todo.ui.theme.Gray_300
@@ -64,7 +66,7 @@ fun MyPage(navController: NavHostController) {
         val memberService = RetrofitBuilder.getService(MemberService::class.java)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val res = memberService.delete(MainActivity.token)
+            val res = memberService.delete(MainActivity.token, "qwer1234!")
             if (res.isSuccessful) {
                 withContext(Dispatchers.Main) {
                     navController.navigate(Page.MAIN.name) {
@@ -75,6 +77,20 @@ fun MyPage(navController: NavHostController) {
                 }
             }
         }
+    }
+
+    val logout: () -> Unit = {
+        MainActivity.token = ""
+
+        navController.navigate(Page.MAIN.name) {
+            popUpTo(navController.graph.startDestinationId) {
+                inclusive = true
+            }
+        }
+    }
+
+    val changePassword: () -> Unit = {
+
     }
 
     Column(
@@ -89,10 +105,12 @@ fun MyPage(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
+            val shape = RoundedCornerShape(12.dp)
+
             Column(
                 modifier = Modifier
-                    .background(Color.White, RoundedCornerShape(12.dp))
-                    .shadow(1.dp, RoundedCornerShape(12.dp))
+                    .background(Color.White, shape)
+                    .shadow(1.dp, shape)
                     .padding(vertical = 11.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -119,31 +137,45 @@ fun MyPage(navController: NavHostController) {
                     Modifier
                         .fillMaxWidth()
                         .padding(top = 39.dp, start = 11.dp, end = 11.dp)
-                        .clip(RoundedCornerShape(12.dp))
+                        .clip(shape)
                 ) {
                     val modifier = Modifier
                         .weight(1.0f)
-                        .background(Blue_100)
-                        .padding(vertical = 22.dp)
+                        .height(67.dp)
+                        .background(Blue_200)
+
                     val fontStyle = TextStyle(
                         color = Blue_400,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 15.sp,
                     )
 
-                    Text(text = "로그아웃", modifier, style = fontStyle, textAlign = TextAlign.Center)
-                    Text(
-                        text = "비민번호 변경",
-                        modifier,
-                        style = fontStyle,
-                        textAlign = TextAlign.Center
-                    )
+                    Box(
+                        modifier.clickable { logout() },
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = "로그아웃",
+                            style = fontStyle,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    Box(
+                        modifier.clickable { changePassword() },
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = "비민번호 변경",
+                            style = fontStyle,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
 
             Surface(
                 color = Blue_100,
-                shape = RoundedCornerShape(12.dp),
+                shape = shape,
                 modifier = Modifier.clickable {
                     isShowWithdrawalDialog.value = true
                 }
@@ -167,10 +199,7 @@ fun MyPage(navController: NavHostController) {
     }
 }
 
-@Preview(
-    showBackground = true,
-    device = "spec:width=3120px,height=1440px,dpi=560,orientation=portrait"
-)
+@Preview(showBackground = true)
 @Composable
 fun MyPagePreview() {
     INUTodoTheme {
@@ -243,7 +272,10 @@ fun WithdrawalDialog(
                             .background(Color(0xffF1F1F1))
                             .align(Alignment.CenterVertically)
                     )
-                    Box(modifier.clickable { onDismiss() }, contentAlignment = Alignment.Center) {
+                    Box(
+                        modifier.clickable { onWithdrawal() },
+                        contentAlignment = Alignment.Center
+                    ) {
                         Text(
                             text = "탈퇴하기",
                             style = fontStyle.copy(color = Red_300),

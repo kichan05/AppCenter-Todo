@@ -189,12 +189,12 @@ fun HomePage(navController: NavController) {
                 )
             }
 
-            val shape = RoundedCornerShape(12.dp)
+            Spacer(modifier = Modifier.height(17.dp))
 
+            val shape = RoundedCornerShape(12.dp)
             Column(
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = 18.dp)
                     .shadow(3.dp, shape)
                     .background(Color.White, shape)
                     .padding(vertical = 20.dp, horizontal = 15.dp)
