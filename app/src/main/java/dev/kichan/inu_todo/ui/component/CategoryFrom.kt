@@ -39,11 +39,17 @@ import dev.kichan.inu_todo.ui.theme.suit
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
-fun CategoryFrom(category: CreateCategoryReq?, onChange : (CreateCategoryReq) -> Unit) {
+fun CategoryFrom(category: CreateCategoryReq?, onChange: (CreateCategoryReq) -> Unit) {
     val inputShape = RoundedCornerShape(12.dp)
     val colorList = CategoryColor.entries
 
-    val selectCategoryIndex = remember { mutableStateOf(0) }
+    val selectCategoryIndex = remember {
+        mutableStateOf(
+            Math.max(
+                0, colorList.map { it.hex }.indexOf(category!!.color)
+            )
+        )
+    }
     val nameInput = remember { mutableStateOf(category?.content ?: "") }
 
     LaunchedEffect(nameInput.value) {
@@ -51,7 +57,12 @@ fun CategoryFrom(category: CreateCategoryReq?, onChange : (CreateCategoryReq) ->
             .distinctUntilChanged() // 중복된 값 무시
             .collect {
                 Log.d("nameInput", it)
-                onChange(CreateCategoryReq(content = nameInput.value, color = colorList.get(selectCategoryIndex.value).hex))
+                onChange(
+                    CreateCategoryReq(
+                        content = nameInput.value,
+                        color = colorList.get(selectCategoryIndex.value).hex
+                    )
+                )
             }
     }
 
@@ -60,7 +71,12 @@ fun CategoryFrom(category: CreateCategoryReq?, onChange : (CreateCategoryReq) ->
             .distinctUntilChanged() // 중복된 값 무시
             .collect {
                 Log.d("selectCategory", it.toString())
-                onChange(CreateCategoryReq(content = nameInput.value, color = colorList.get(selectCategoryIndex.value).hex))
+                onChange(
+                    CreateCategoryReq(
+                        content = nameInput.value,
+                        color = colorList.get(selectCategoryIndex.value).hex
+                    )
+                )
             }
     }
 

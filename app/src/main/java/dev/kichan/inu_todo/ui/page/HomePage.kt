@@ -271,7 +271,7 @@ fun HomePage(navController: NavController) {
                     tint = Color(0xffa2a2a2)
                 )
                 Text(
-                    text = "Todolis 추가",
+                    text = "Todolist 추가",
                     style = TextStyle(
                         fontFamily = suit,
                         fontWeight = FontWeight.Medium,

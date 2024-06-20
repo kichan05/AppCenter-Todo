@@ -63,6 +63,7 @@ fun MyPage(navController: NavHostController) {
             if (res.isSuccessful) {
                 withContext(Dispatchers.Main) {
                     MainActivity.token = ""
+                    isShowWithdrawalDialog.value = false
 
                     navController.navigate(Page.MAIN.name) {
                         popUpTo(navController.graph.startDestinationId) {
@@ -123,7 +124,7 @@ fun MyPage(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "안녕하세요. 박희찬님!",
+                    text = "안녕하세요. ckstmznf님!",
                     style = TextStyle(
                         fontFamily = suit,
                         fontWeight = FontWeight.SemiBold,
@@ -201,7 +202,7 @@ fun MyPage(navController: NavHostController) {
             image = R.drawable.boom
         ) {
             Text(
-                text = "김사랑님,\n정말 계정을 삭제하실건가요?",
+                text = "ckstmznf님,\n정말 계정을 삭제하실건가요?",
                 fontFamily = suit,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,

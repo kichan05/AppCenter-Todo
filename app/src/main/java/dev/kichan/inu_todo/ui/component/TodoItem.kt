@@ -89,7 +89,7 @@ fun TodoItem(
                 Surface(
                     checkModifier,
                     shape = RoundedCornerShape(100.dp),
-                    border = BorderStroke(1.dp, todo.category.colorValue)
+                    border = BorderStroke(1.dp, if(todo.category.content == "기본") Color.Gray else todo.category.colorValue)
                 ) { }
             }
 
@@ -102,7 +102,7 @@ fun TodoItem(
                 modifier = Modifier
                     .weight(1.0f)
                     .background(todo.category.colorValue.copy(alpha = 0.2f), shape)
-                    .border(1.dp, todo.category.colorValue, shape = shape)
+                    .border(1.dp, if(todo.category.content == "기본") Color.Gray else todo.category.colorValue, shape = shape)
                     .padding(vertical = 11.dp, horizontal = 14.dp)
             )
         }
@@ -150,10 +150,10 @@ fun TodoItemPreview() {
                 todoId = 2226,
                 category = Category(
                     categoryId = 2595,
-                    content = "fermentum",
-                    color = CategoryColor.GREEN.hex
+                    content = "기본",
+                    color = "ffffff"
                 ),
-                checked = true,
+                checked = false,
                 content = "habitant",
                 _setDate = "usu",
             ),

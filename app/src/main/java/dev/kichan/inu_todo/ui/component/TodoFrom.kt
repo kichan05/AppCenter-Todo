@@ -53,7 +53,7 @@ import java.time.format.DateTimeFormatter
 fun TodoFrom(todo: Todo?, onFeatch: (TodoCreateReq) -> Unit) {
     val todoInput = remember { mutableStateOf(todo?.content ?: "") }
     val selectCategoryId = remember { mutableStateOf<Int?>(todo?.category?.categoryId) }
-    val selectDate = remember { mutableStateOf(LocalDate.now()) }
+    val selectDate = remember { mutableStateOf(todo?.setDate ?: LocalDate.now()) }
 
     val todoList = remember { mutableStateOf(listOf<Todo>()) }
 
@@ -177,9 +177,9 @@ fun TodoFrom(todo: Todo?, onFeatch: (TodoCreateReq) -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .shadow(1.dp, shape)
                     .background(Color.White, shape)
                     .border(1.dp, Gray_200, shape)
-                    .shadow(1.dp, shape)
             ) {
                 items(categoryList.value) {
                     CategoryItem(
