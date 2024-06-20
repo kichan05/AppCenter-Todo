@@ -231,7 +231,7 @@ fun HomePage(navController: NavController) {
                         style = TextStyle(
                             color = Color(0xFFB1B1B1),
                             fontFamily = suit,
-                            fontSize = 18.sp
+                            fontSize = 14.sp
                         ),
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )

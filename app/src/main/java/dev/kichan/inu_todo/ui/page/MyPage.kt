@@ -3,11 +3,13 @@ package dev.kichan.inu_todo.ui.page
 import androidx.compose.material3.Text
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -102,11 +104,13 @@ fun MyPage(navController: NavHostController) {
 
             Column(
                 modifier = Modifier
+                    .shadow(3.dp, shape)
                     .background(Color.White, shape)
-                    .shadow(1.dp, shape)
-                    .padding(vertical = 11.dp),
+                    .padding(horizontal = 12.dp, vertical = 15.dp),
+
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                Spacer(modifier = Modifier.height(12.dp))
                 Image(
                     painter = painterResource(id = R.drawable.heechan),
                     contentDescription = null,
@@ -116,6 +120,8 @@ fun MyPage(navController: NavHostController) {
                         .clip(CircleShape),
                 )
 
+                Spacer(modifier = Modifier.height(12.dp))
+
                 Text(
                     text = "안녕하세요. 박희찬님!",
                     style = TextStyle(
@@ -123,13 +129,13 @@ fun MyPage(navController: NavHostController) {
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 18.sp
                     ),
-                    modifier = Modifier.padding(top = 24.dp)
                 )
+
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Row(
                     Modifier
                         .fillMaxWidth()
-                        .padding(top = 39.dp, start = 11.dp, end = 11.dp)
                         .clip(shape)
                 ) {
                     val modifier = Modifier
