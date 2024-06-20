@@ -26,7 +26,6 @@ interface MemberService {
     @DELETE("/member")
     suspend fun delete(
         @Header("Authorization") authorization : String,
-        @Query("userPw ") password : String
     ) : Response<ResponseMessage>
 
     @PUT("/member")

@@ -57,7 +57,7 @@ fun MyPage(navController: NavHostController) {
         val memberService = RetrofitBuilder.getService(MemberService::class.java)
 
         CoroutineScope(Dispatchers.IO).launch {
-            val res = memberService.delete(MainActivity.token, "qwer1234!")
+            val res = memberService.delete(MainActivity.token)
             if (res.isSuccessful) {
                 withContext(Dispatchers.Main) {
                     MainActivity.token = ""

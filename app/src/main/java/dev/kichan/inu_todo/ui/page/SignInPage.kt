@@ -26,6 +26,7 @@ import dev.kichan.inu_todo.model.data.member.User
 import dev.kichan.inu_todo.model.service.MemberService
 import dev.kichan.inu_todo.ui.component.Header
 import dev.kichan.inu_todo.ui.component.InputLabel
+import dev.kichan.inu_todo.ui.component.InputType
 import dev.kichan.inu_todo.ui.component.InuButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -100,7 +101,8 @@ fun SignInPage(navController: NavController = rememberNavController()) {
                     modifier = Modifier.fillMaxWidth(),
                     icon = Icons.Outlined.Lock,
                     singleLine = true,
-                    isSuccess = password.value.length >= 8
+                    isSuccess = password.value.length >= 8,
+                    inputType = InputType.Password
                 )
             }
 

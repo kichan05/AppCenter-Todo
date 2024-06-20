@@ -224,6 +224,19 @@ fun HomePage(navController: NavController) {
                     ),
                 )
 
+                if (todoList.value.filter { it.setDate == selectDate.value }.isEmpty()) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Todo List가 비어있어요.",
+                        style = TextStyle(
+                            color = Color(0xFFB1B1B1),
+                            fontFamily = suit,
+                            fontSize = 18.sp
+                        ),
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(11.dp),
                     contentPadding = PaddingValues(vertical = 12.dp)
